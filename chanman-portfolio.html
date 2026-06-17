@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ちゃんまん | フリーランスポートフォリオ</title>
+<meta name="description" content="SNS運用代行・リール編集・実食レビュー撮影・トレカ相場リサーチ。ちゃんまんのフリーランスポートフォリオ。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f1a;
+  --surface: #161929;
+  --surface-alt: #1a1c2e;
+  --border: rgba(236,72,153,0.2);
+  --accent: #f472b6;
+  --accent2: #c084fc;
+  --gold: #fbbf24;
+  --green: #34d399;
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --r: 14px;
+  --r-sm: 8px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ---- HERO ---- */
+.hero {
+  padding: 80px 20px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: 50%;
+  transform: translateX(-50%);
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(244,114,182,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-block;
+  background: rgba(244,114,182,0.12);
+  border: 1px solid rgba(244,114,182,0.3);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.hero-name {
+  font-size: clamp(2.4rem, 8vw, 4rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, #f9a8d4 0%, #c084fc 60%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+.hero-sub {
+  font-size: 15px;
+  color: var(--text2);
+  max-width: 480px;
+  margin: 0 auto 28px;
+  line-height: 1.8;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+.hero-stat {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.hero-stat strong {
+  color: var(--accent);
+  margin-right: 4px;
+}
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #f472b6, #c084fc);
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+  padding: 14px 32px;
+  border-radius: 40px;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 4px 24px rgba(244,114,182,0.3);
+}
+.hero-cta:hover { opacity: 0.88; transform: translateY(-2px); }
+
+/* ---- SECTION ---- */
+.section {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+.section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--text3);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ---- SERVICE CARDS ---- */
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin-bottom: 48px;
+}
+.service-card {
+  background: var(--surface);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--r);
+  padding: 24px;
+  transition: border-color 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: var(--r) var(--r) 0 0;
+}
+.service-card.pink::before { background: linear-gradient(90deg, #f472b6, #e879f9); }
+.service-card.purple::before { background: linear-gradient(90deg, #c084fc, #818cf8); }
+.service-card.orange::before { background: linear-gradient(90deg, #fb923c, #fbbf24); }
+.service-card.green::before { background: linear-gradient(90deg, #34d399, #22d3ee); }
+.service-card:hover { border-color: rgba(244,114,182,0.25); transform: translateY(-2px); }
+
+.service-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+  display: block;
+}
+.service-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+.pink .service-badge { background: rgba(244,114,182,0.15); color: #f472b6; }
+.purple .service-badge { background: rgba(192,132,252,0.15); color: #c084fc; }
+.orange .service-badge { background: rgba(251,146,60,0.15); color: #fb923c; }
+.green .service-badge { background: rgba(52,211,153,0.15); color: #34d399; }
+
+.service-title {
+  font-size: 17px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.service-desc {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.75;
+  margin-bottom: 14px;
+}
+.service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.service-tag {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r-sm);
+  padding: 3px 10px;
+  font-size: 11px;
+  color: var(--text2);
+  font-weight: 500;
+}
+
+/* ---- STRENGTHS ---- */
+.strengths {
+  background: var(--surface);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--r);
+  padding: 28px;
+  margin-bottom: 48px;
+}
+.strengths-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+.strength-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.strength-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+.strength-label {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.strength-text {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+/* ---- SAMPLES ---- */
+.samples-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 48px;
+}
+.sample-card {
+  background: var(--surface);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--r-sm);
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: default;
+  transition: border-color 0.2s;
+}
+.sample-card:hover { border-color: rgba(244,114,182,0.3); }
+.sample-emoji { font-size: 32px; }
+.sample-label {
+  font-size: 11px;
+  color: var(--text3);
+  text-align: center;
+  font-weight: 600;
+}
+
+/* ---- PROCESS ---- */
+.process {
+  display: flex;
+  gap: 0;
+  margin-bottom: 48px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.process-step {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  position: relative;
+}
+.process-step:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -8px;
+  top: 16px;
+  color: var(--text3);
+  font-size: 14px;
+}
+.process-num {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(244,114,182,0.15);
+  border: 1px solid rgba(244,114,182,0.3);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px;
+}
+.process-text {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+
+/* ---- CTA ---- */
+.cta-block {
+  background: linear-gradient(135deg, rgba(244,114,182,0.1) 0%, rgba(192,132,252,0.08) 100%);
+  border: 1px solid rgba(244,114,182,0.25);
+  border-radius: var(--r);
+  padding: 40px 28px;
+  text-align: center;
+}
+.cta-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+.cta-sub {
+  font-size: 14px;
+  color: var(--text2);
+  margin-bottom: 24px;
+  line-height: 1.7;
+}
+.cta-btns {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #f472b6, #c084fc);
+  color: #fff;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 13px 28px;
+  border-radius: 40px;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 4px 20px rgba(244,114,182,0.25);
+}
+.btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+.btn-ghost {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 13px 28px;
+  border-radius: 40px;
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+.btn-ghost:hover { border-color: rgba(244,114,182,0.4); }
+
+/* ---- FOOTER ---- */
+footer {
+  text-align: center;
+  padding: 32px 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 12px;
+  color: var(--text3);
+}
+
+@media (max-width: 600px) {
+  .services { grid-template-columns: 1fr; }
+  .samples-grid { grid-template-columns: repeat(2, 1fr); }
+  .process { gap: 0; }
+  .process-step { min-width: 90px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">FREELANCE PORTFOLIO</div>
+  <h1 class="hero-name">ちゃんまん</h1>
+  <p class="hero-sub">
+    SNS運用代行・リール動画編集・実食レビュー撮影・トレカ相場リサーチ。<br>
+    実績ベースで丁寧に、スピード感をもって対応します。
+  </p>
+  <div class="hero-stats">
+    <span class="hero-stat"><strong>1,200+</strong>Instagramフォロワー</span>
+    <span class="hero-stat"><strong>4</strong>サービス提供中</span>
+    <span class="hero-stat"><strong>迅速対応</strong>基本24h以内</span>
+  </div>
+  <a href="#contact" class="hero-cta">クラウドワークスで依頼する →</a>
+</div>
+
+<!-- SERVICES -->
+<section class="section">
+  <div class="section-title">SERVICES — 提供サービス</div>
+  <div class="services">
+
+    <div class="service-card pink">
+      <span class="service-icon">📱</span>
+      <div class="service-badge">SNS MANAGEMENT</div>
+      <div class="service-title">SNS運用代行</div>
+      <div class="service-desc">
+        Instagram・X・TikTokの投稿作成・スケジューリング・コメント管理をまとめてサポート。ターゲットに刺さるキャプション文・ハッシュタグ選定も対応。
+      </div>
+      <div class="service-tags">
+        <span class="service-tag">Instagram</span>
+        <span class="service-tag">X（旧Twitter）</span>
+        <span class="service-tag">TikTok</span>
+        <span class="service-tag">キャプション作成</span>
+        <span class="service-tag">ハッシュタグ選定</span>
+      </div>
+    </div>
+
+    <div class="service-card purple">
+      <span class="service-icon">🎬</span>
+      <div class="service-badge">VIDEO EDITING</div>
+      <div class="service-title">リール・ショート動画編集</div>
+      <div class="service-desc">
+        InstagramリールやYouTube Shortsの動画編集・テロップ入れ・BGM調整。縦型フォーマット対応。伝わる構成で完成度を高めます。
+      </div>
+      <div class="service-tags">
+        <span class="service-tag">Reels</span>
+        <span class="service-tag">Shorts</span>
+        <span class="service-tag">TikTok</span>
+        <span class="service-tag">テロップ</span>
+        <span class="service-tag">BGM</span>
+      </div>
+    </div>
+
+    <div class="service-card orange">
+      <span class="service-icon">🍱</span>
+      <div class="service-badge">FOOD REVIEW</div>
+      <div class="service-title">実食レビュー・食レポ撮影</div>
+      <div class="service-desc">
+        コンビニ・スーパー・飲食店の商品を実際に食べてレポート。写真・動画・テキストレビューを制作。高タンパク・ダイエット食品が得意分野。
+      </div>
+      <div class="service-tags">
+        <span class="service-tag">実食レポ</span>
+        <span class="service-tag">商品レビュー</span>
+        <span class="service-tag">高タンパク食品</span>
+        <span class="service-tag">コンビニ飯</span>
+        <span class="service-tag">写真＋動画</span>
+      </div>
+    </div>
+
+    <div class="service-card green">
+      <span class="service-icon">🃏</span>
+      <div class="service-badge">CARD RESEARCH</div>
+      <div class="service-title">ポケカ・トレカ相場リサーチ</div>
+      <div class="service-desc">
+        ポケモンカード・ワンピースカード等の最新相場を調査し、仕入れリスト・売れ筋ランキングを作成。購入タイミングのアドバイスも対応可能。
+      </div>
+      <div class="service-tags">
+        <span class="service-tag">ポケモンカード</span>
+        <span class="service-tag">ワンピースカード</span>
+        <span class="service-tag">相場調査</span>
+        <span class="service-tag">仕入れリスト</span>
+        <span class="service-tag">転売リサーチ</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STRENGTHS -->
+  <div class="section-title">STRENGTHS — 強み</div>
+  <div class="strengths">
+    <div class="strengths-grid">
+      <div class="strength-item">
+        <div class="strength-dot"></div>
+        <div>
+          <div class="strength-label">実際に使う・食べる</div>
+          <div class="strength-text">リサーチだけでなく自分で試してからレポート。リアルな感想をコンテンツに反映。</div>
+        </div>
+      </div>
+      <div class="strength-item">
+        <div class="strength-dot" style="background:var(--accent2)"></div>
+        <div>
+          <div class="strength-label">カード相場に精通</div>
+          <div class="strength-text">店舗運営経験＋日常的な相場チェックで、最新価格をスピーディに調査。</div>
+        </div>
+      </div>
+      <div class="strength-item">
+        <div class="strength-dot" style="background:var(--gold)"></div>
+        <div>
+          <div class="strength-label">SNS実績あり</div>
+          <div class="strength-text">Instagram 1,200+フォロワーで実際に運用中。コンテンツ感覚が身についている。</div>
+        </div>
+      </div>
+      <div class="strength-item">
+        <div class="strength-dot" style="background:var(--green)"></div>
+        <div>
+          <div class="strength-label">丁寧なやりとり</div>
+          <div class="strength-text">質問・修正依頼には迅速に対応。納品まで細かくコミュニケーション。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORK SAMPLES -->
+  <div class="section-title">SAMPLES — 制作サンプル</div>
+  <div class="samples-grid">
+    <div class="sample-card">
+      <div class="sample-emoji">🍗</div>
+      <div class="sample-label">実食レビュー<br>コンテンツ</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-emoji">🎬</div>
+      <div class="sample-label">リール動画<br>編集サンプル</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-emoji">📊</div>
+      <div class="sample-label">トレカ相場<br>リサーチ資料</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-emoji">📸</div>
+      <div class="sample-label">SNS投稿<br>デザイン例</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-emoji">🥗</div>
+      <div class="sample-label">高タンパク食品<br>レビュー</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-emoji">🃏</div>
+      <div class="sample-label">仕入れリスト<br>作成サンプル</div>
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <div class="section-title">FLOW — 依頼の流れ</div>
+  <div class="process">
+    <div class="process-step">
+      <div class="process-num">1</div>
+      <div class="process-text">お問い合わせ<br>依頼内容を<br>ヒアリング</div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">2</div>
+      <div class="process-text">内容確認<br>納期・方向性<br>を相談</div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">3</div>
+      <div class="process-text">制作・調査<br>実食・撮影・<br>リサーチ実施</div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">4</div>
+      <div class="process-text">初稿提出<br>修正対応<br>（1〜2回）</div>
+    </div>
+    <div class="process-step">
+      <div class="process-num">5</div>
+      <div class="process-text">納品完了<br>ご確認後に<br>お支払い</div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block" id="contact">
+    <div class="cta-title">お仕事のご依頼・お問い合わせ</div>
+    <div class="cta-sub">
+      まずはお気軽にメッセージください。<br>
+      内容・予算・納期に合わせてご提案します。
+    </div>
+    <div class="cta-btns">
+      <a href="https://crowdworks.jp" class="btn-primary" target="_blank" rel="noopener">クラウドワークスで依頼する</a>
+      <a href="https://www.instagram.com/yuri.18yuri/" class="btn-ghost" target="_blank" rel="noopener">Instagramを見る</a>
+    </div>
+  </div>
+
+</section>
+
+<footer>
+  <p>© 2026 ちゃんまん — フリーランスポートフォリオ</p>
+</footer>
+
+</body>
+</html>
