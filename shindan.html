@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔮 6診断統合パーソナリティ診断</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;600;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #e7d9c7;
+    --surface: #f5efe4;
+    --surface-alt: #efe5d7;
+    --border: rgba(159,176,136,0.32);
+    --accent: #6d7f57;
+    --accent2: #d0a89a;
+    --gold: #a9762f;
+    --text: #574a3c;
+    --text2: #8a7c6b;
+    --text3: #a89a87;
+    --r: 16px;
+    --r-sm: 10px;
+    --mincho: 'Shippori Mincho B1', serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Zen Maru Gothic', "Hiragino Sans", "Yu Gothic", sans-serif;
+    background: var(--bg);
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(159,176,136,0.18) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 90%, rgba(217,182,172,0.18) 0%, transparent 55%);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 16px;
+    min-height: 100vh;
+  }
+  .container { max-width: 720px; margin: 0 auto; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 32px rgba(87,74,60,0.10);
+  }
+  h1 { font-family: var(--mincho); font-size: 23px; margin-bottom: 8px; color: var(--text); letter-spacing: 0.04em; font-weight: 700; }
+  h2 {
+    font-family: var(--mincho);
+    font-size: 18px;
+    margin: 20px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+  h3 { font-size: 14px; margin: 12px 0 4px; color: var(--text2); }
+  p { margin: 6px 0; color: var(--text2); }
+  .meta { color: var(--text3); font-size: 13px; margin-bottom: 14px; }
+  .step { display: none; }
+  .step.active { display: block; }
+  .question {
+    background: var(--surface-alt);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    padding: 12px 16px;
+    margin: 10px 0;
+  }
+  .question .q-text { font-weight: 600; margin-bottom: 8px; font-size: 14px; color: var(--text); }
+  .likert { display: grid; grid-template-columns: repeat(5,1fr); gap: 5px; }
+  .likert label {
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 8px 2px;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--text2);
+    transition: all 0.15s;
+  }
+  .likert label:hover { border-color: var(--accent); color: var(--text); }
+  .likert input { display: none; }
+  .likert input:checked + span { font-weight: 700; }
+  .likert label:has(input:checked) {
+    background: linear-gradient(135deg, rgba(159,176,136,0.25), rgba(217,182,172,0.15));
+    color: var(--accent);
+    border-color: var(--accent);
+    font-weight: 700;
+  }
+  .choice-list { display: flex; flex-direction: column; gap: 8px; }
+  .choice-list label {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 12px 14px;
+    cursor: pointer;
+    display: block;
+    color: var(--text2);
+    font-size: 14px;
+    transition: all 0.15s;
+  }
+  .choice-list label:hover { border-color: var(--accent); color: var(--text); }
+  .choice-list label:has(input:checked) {
+    background: linear-gradient(135deg, rgba(159,176,136,0.2), rgba(217,182,172,0.1));
+    color: var(--text);
+    border-color: var(--accent);
+  }
+  .choice-list input { display: none; }
+  input[type="number"], input[type="date"], select {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    font-size: 14px;
+    width: 100%;
+    max-width: 260px;
+    background: var(--surface-alt);
+    color: var(--text);
+  }
+  input[type="number"]:focus, input[type="date"]:focus, select:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .nav { display: flex; gap: 10px; margin-top: 20px; }
+  button {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    border: none;
+    border-radius: var(--r-sm);
+    padding: 12px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    flex: 1;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: opacity 0.15s;
+  }
+  button:hover { opacity: 0.88; }
+  button.secondary {
+    background: var(--surface-alt);
+    color: var(--text2);
+    border: 1px solid var(--border);
+  }
+  button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .progress {
+    background: rgba(255,255,255,0.06);
+    height: 4px;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .progress-bar {
+    background: linear-gradient(to right, var(--accent), var(--accent2));
+    height: 100%;
+    transition: width 0.4s ease;
+  }
+  .result-block {
+    margin: 12px 0;
+    padding: 16px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+  }
+  .result-block .label {
+    font-size: 11px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .result-block .value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+  }
+  .result-block .detail {
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 6px;
+    line-height: 1.75;
+  }
+  .tag {
+    display: inline-block;
+    background: rgba(159,176,136,0.12);
+    border: 1px solid rgba(159,176,136,0.28);
+    color: var(--accent);
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin: 2px;
+  }
+  .integration {
+    background: linear-gradient(135deg, rgba(159,176,136,0.08), rgba(217,182,172,0.04));
+    border: 1px solid rgba(159,176,136,0.22);
+    padding: 18px;
+    border-radius: var(--r);
+    margin: 16px 0;
+  }
+  .integration h3 {
+    color: var(--accent);
+    border-bottom: 1px solid rgba(159,176,136,0.18);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .integration p { color: var(--text2); font-size: 14px; line-height: 1.8; }
+  .gap-bar {
+    background: linear-gradient(to right, #34d399, #fbbf24, #f87171);
+    height: 8px;
+    border-radius: 4px;
+    position: relative;
+    margin: 10px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  }
+  .gap-marker {
+    position: absolute;
+    top: -5px;
+    width: 5px;
+    height: 18px;
+    background: #574a3c;
+    border-radius: 2px;
+    box-shadow: 0 0 6px rgba(87,74,60,0.4);
+  }
+  .celebs { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+  .disclaimer {
+    font-size: 12px;
+    color: var(--text3);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 12px;
+    border-radius: var(--r-sm);
+    margin: 12px 0;
+  }
+  details { margin: 10px 0; }
+  details summary {
+    cursor: pointer;
+    font-weight: 600;
+    padding: 6px 0;
+    color: var(--text3);
+    font-size: 13px;
+  }
+  details[open] summary { color: var(--text2); }
+  .logic-detail {
+    background: rgba(0,0,0,0.35);
+    padding: 10px;
+    border-radius: var(--r-sm);
+    font-family: monospace;
+    font-size: 12px;
+    color: var(--text3);
+    white-space: pre-wrap;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  canvas { display: block; margin: 12px auto; max-width: 100%; border-radius: var(--r-sm); }
+
+  /* Result hero */
+  .result-hero {
+    text-align: center;
+    padding: 36px 20px 28px;
+    background: linear-gradient(180deg, rgba(159,176,136,0.12) 0%, rgba(217,182,172,0.03) 100%);
+    border: 1px solid rgba(159,176,136,0.28);
+    border-radius: var(--r);
+    margin: 0 0 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .result-hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%; transform: translateX(-50%);
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(159,176,136,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-type-badge {
+    font-family: var(--mincho);
+    font-size: 56px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    background: linear-gradient(135deg, #8a9c70 0%, #c69a8c 60%, #6d7f57 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .hero-subtitle {
+    font-size: 18px;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 18px;
+  }
+  .hero-axis {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .hero-axis-item {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+  }
+  .hero-axis-sep { color: var(--text3); font-size: 11px; }
+  .hero-strengths {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .hero-strength-tag {
+    background: rgba(251,191,36,0.12);
+    border: 1px solid rgba(251,191,36,0.3);
+    color: var(--gold);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ============= STEP 0: イントロ ============= -->
+<div class="step active" id="step-intro">
+  <div class="card">
+    <h1>🔮 6診断統合パーソナリティ診断</h1>
+    <p class="meta">MBTI / エニアグラム / VIA / 動物占い / 四柱推命 / 手相 ── 6つの診断を統合し、あなたの3層プロファイルを描き出す</p>
+    <p style="color:var(--text2);">所要時間：5〜8分（質問37 + 生年月日 + 手相自己診断6項目）</p>
+    <p class="disclaimer">
+      ※本診断はエンタメ目的・自己理解の入口として設計されています。<br>
+      ※MBTI / ストレングスファインダー等の公式診断とは別物です。<br>
+      ※質問はパブリックドメインベースの独自設計、占い系は計算ロジックのみ流用しています。
+    </p>
+    <div class="nav"><button onclick="goStep('mbti')">診断スタート</button></div>
+  </div>
+</div>
+
+<!-- ============= STEP 1: MBTI ============= -->
+<div class="step" id="step-mbti">
+  <div class="card">
+    <div class="progress"><div class="progress-bar" style="width: 16%"></div></div>
+    <h2>① 16タイプ性格診断（16問）</h2>
+    <p class="meta">表層：あなたの行動パターンを4軸＋A/T軸で測定</p>
+    <div id="mbti-questions"></div>
+    <div class="nav">
+      <button class="secondary" onclick="goStep('intro')">戻る</button>
+      <button onclick="nextFromMbti()">次へ（エニアグラム）</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============= STEP 2: エニアグラム ============= -->
+<div class="step" id="step-enneagram">
+  <div class="card">
+    <div class="progress"><div class="progress-bar" style="width: 33%"></div></div>
+    <h2>② エニアグラム 9タイプ（9問＋健全度3問）</h2>
+    <p class="meta">中層：あなたを動かす内的動機・恐れ＋今のメンタル状態</p>
+    <div id="enneagram-questions"></div>
+    <h3 style="margin-top:20px;color:var(--text2);">▼ 今のあなたの状態（健全度）</h3>
+    <div id="enneagram-health-questions"></div>
+    <div class="nav">
+      <button class="secondary" onclick="goStep('mbti')">戻る</button>
+      <button onclick="nextFromEnneagram()">次へ（強み診断）</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============= STEP 3: VIA ============= -->
+<div class="step" id="step-via">
+  <div class="card">
+    <div class="progress"><div class="progress-bar" style="width: 50%"></div></div>
+    <h2>③ 強み診断（12問）</h2>
+    <p class="meta">中層：6つの美徳から見るあなたの強み</p>
+    <div id="via-questions"></div>
+    <div class="nav">
+      <button class="secondary" onclick="goStep('enneagram')">戻る</button>
+      <button onclick="nextFromVia()">次へ（生年月日）</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============= STEP 4: 生年月日 ============= -->
+<div class="step" id="step-birth">
+  <div class="card">
+    <div class="progress"><div class="progress-bar" style="width: 66%"></div></div>
+    <h2>④ 生年月日（動物占い・四柱推命用）</h2>
+    <p class="meta">基層：先天的な気質を生年月日から算出</p>
+    <div class="question">
+      <div class="q-text">生年月日</div>
+      <input type="date" id="birth-date" min="1920-01-01" max="2025-12-31">
+    </div>
+    <div class="question">
+      <div class="q-text">出生時刻（不明ならスキップでOK）</div>
+      <select id="birth-hour">
+        <option value="">不明</option>
+        <option value="0">0時〜2時（子の刻）</option>
+        <option value="2">2時〜4時（丑の刻）</option>
+        <option value="4">4時〜6時（寅の刻）</option>
+        <option value="6">6時〜8時（卯の刻）</option>
+        <option value="8">8時〜10時（辰の刻）</option>
+        <option value="10">10時〜12時（巳の刻）</option>
+        <option value="12">12時〜14時（午の刻）</option>
+        <option value="14">14時〜16時（未の刻）</option>
+        <option value="16">16時〜18時（申の刻）</option>
+        <option value="18">18時〜20時（酉の刻）</option>
+        <option value="20">20時〜22時（戌の刻）</option>
+        <option value="22">22時〜24時（亥の刻）</option>
+      </select>
+    </div>
+    <div class="nav">
+      <button class="secondary" onclick="goStep('via')">戻る</button>
+      <button onclick="nextFromBirth()">次へ（手相）</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============= STEP 5: 手相 ============= -->
+<div class="step" id="step-palm">
+  <div class="card">
+    <div class="progress"><div class="progress-bar" style="width: 83%"></div></div>
+    <h2>⑤ 手相 自己診断（6項目）</h2>
+    <p class="meta">基層：手の形と特殊線で身体的気質を測る（自分の手を見ながら答えてください）</p>
+    <div id="palm-questions"></div>
+    <div class="nav">
+      <button class="secondary" onclick="goStep('birth')">戻る</button>
+      <button onclick="showResult()">結果を見る</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============= STEP 6: 結果 ============= -->
+<div class="step" id="step-result">
+  <div class="card">
+    <div class="progress"><div class="progress-bar" style="width: 100%"></div></div>
+    <h1>あなたの統合パーソナリティ</h1>
+    <div id="result-content"></div>
+    <div class="nav">
+      <button class="secondary" onclick="location.reload()">最初からやり直す</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ===========================================================================
+// データ定義
+// ===========================================================================
+
+// --- MBTI 質問（16問: 各軸3問 + A/T 4問）カジュアル版 ---
+const mbtiQuestions = [
+  // E/I axis (+ = E)
+  { axis: 'EI', text: '初対面の集まりで、自分から話しかけにいくほう？', reverse: false },
+  { axis: 'EI', text: 'ひとりの時間がないとエネルギー切れになる', reverse: true },
+  { axis: 'EI', text: '大人数の飲み会より、少人数で深く話したい派', reverse: true },
+  // S/N axis (+ = N)
+  { axis: 'SN', text: '「もし〜だったら？」って想像するのが好き', reverse: false },
+  { axis: 'SN', text: '抽象的な話より、具体的な事実やデータの方が刺さる', reverse: true },
+  { axis: 'SN', text: '物事の「本質」や「背後の意味」をつい探りたくなる', reverse: false },
+  // T/F axis (+ = F)
+  { axis: 'TF', text: '判断する時、まず相手の気持ちを考えてしまう', reverse: false },
+  { axis: 'TF', text: '「論理的に正しいか」が判断の最重要ポイント', reverse: true },
+  { axis: 'TF', text: '議論で勝つより、関係を保つ方が大事だと思う', reverse: false },
+  // J/P axis (+ = J)
+  { axis: 'JP', text: '旅行は事前にしっかり計画立てたい派', reverse: false },
+  { axis: 'JP', text: '締切ギリギリの方がむしろ集中できる', reverse: true },
+  { axis: 'JP', text: 'ToDoリストを作って消していくのが快感', reverse: false },
+  // A/T axis (+ = T)
+  { axis: 'AT', text: '過去の失敗を、ふと思い返してモヤモヤすることがある', reverse: false },
+  { axis: 'AT', text: 'ストレス状況でも淡々と進める方', reverse: true },
+  { axis: 'AT', text: '「もっと上手くやれたはず」と自分を責めがち', reverse: false },
+  { axis: 'AT', text: '自分の判断には基本的に自信がある', reverse: true }
+];
+
+// --- エニアグラム 9問: 各タイプの核を1問ずつ（カジュアル版）---
+const enneagramQuestions = [
+  { type: 1, text: '何かを始めるとベストなやり方を追求したくなる／ルールが破られるとイラっとする' },
+  { type: 2, text: '誰かの役に立ってる時が一番自分らしい／困ってる人を見ると放っておけない' },
+  { type: 3, text: '目標達成と「評価される結果」が何より大事／効率よく動きたい' },
+  { type: 4, text: '自分は他と違う独自の感性を持ってる／「平凡」って言われるのが一番嫌' },
+  { type: 5, text: '物事を深く理解・分析するのが好き／準備不足のまま動くのが嫌' },
+  { type: 6, text: '安全と信頼できる仲間が一番大事／リスクや裏切りに敏感' },
+  { type: 7, text: '新しい経験・楽しいことに即飛びつきたい／退屈・苦痛からは早く抜け出したい' },
+  { type: 8, text: '自分の人生は自分で決めたい／コントロールされたり弱く見られるのが許せない' },
+  { type: 9, text: '対立・争いが嫌い／みんなが平和なら自分の意見は控えてもいい' }
+];
+
+// --- エニアグラム健全度判定 追加3問（+で健全側、-で不健全側）---
+const enneagramHealthQuestions = [
+  { text: '最近、自分の感情を素直に受け止められている', reverse: false },
+  { text: '最近、人の些細な言動が引っかかってモヤモヤすることが多い', reverse: true },
+  { text: '最近、自分の欠点や弱さも含めて「これでいい」と思える', reverse: false }
+];
+
+// --- VIA 12問: 6美徳×2 ---
+const viaQuestions = [
+  {
+    virtue: '知恵', strength: '創造性',
+    text: '初めての分野でも、新しいやり方を考え出すのが好き',
+    aruaru: '「これ前にやったやり方でいいよね」が苦痛。同じ作業を3回繰り返すと自動化を考え始める。アイデアが浮かんでメモ帳・スマホがアイデアで溢れている。0→1が一番テンション上がる',
+    biz: '新規事業・サービス開発・ブランディング・コンテンツ制作で強い'
+  },
+  {
+    virtue: '知恵', strength: '向学心',
+    text: '知らない分野を調べたり学んだりするのに時間を使ってる',
+    aruaru: 'YouTubeの解説動画でついつい時間溶ける。本棚・Kindleが本で溢れている。「で、それってどういう仕組み？」が口癖。新しい分野は浅くてもいいから触ってみたい',
+    biz: 'コンサル・リサーチ・教育・専門職で強い'
+  },
+  {
+    virtue: '勇気', strength: '勇敢さ',
+    text: '困難な状況でも、正しいと思ったら立ち向かう',
+    aruaru: '会議で誰も言わない空気の時に手を挙げてしまう。上司にも普通に意見する。リスクを承知でも、やらない後悔より失敗を選ぶ。「で、あなたはどう思うの？」と聞かれて即答できる',
+    biz: '起業・改革ポジション・営業の最前線・リーダー職で強い'
+  },
+  {
+    virtue: '勇気', strength: '忍耐力',
+    text: '一度始めたら途中で投げ出さず最後までやる',
+    aruaru: '一度始めたものを途中で止めるのが気持ち悪い。「あと一歩」で立ち止まらない。地味なルーティンを年単位で続けられる。「すごい」より「ちゃんとやり切った」が嬉しい',
+    biz: '長期プロジェクト・専門職・経営者・職人系で強い'
+  },
+  {
+    virtue: '人間性', strength: '社会的知性',
+    text: '人の感情や状況の変化に敏感に気づく方',
+    aruaru: '相手が「大丈夫」と言っても大丈夫じゃない時に気づく。場の空気を読むのが疲れるほど鋭い。LINEの返信の温度差で関係性を察知する。気を回しすぎて自分が消耗',
+    biz: '営業・カスタマーサクセス・人事・コーチング・マネジメントで強い'
+  },
+  {
+    virtue: '人間性', strength: '愛情',
+    text: '大切な人たちには深い愛情を注いでる',
+    aruaru: '近しい人の幸せが自分の幸せ。記念日を覚えている。「あの人元気かな」と急にLINEしたくなる。大事な人には全力、その他は塩対応になりがち（外周はクール、内周は溺愛）',
+    biz: '対人ケア系・パートナー支援系・チームの結束を作る役で強い'
+  },
+  {
+    virtue: '正義', strength: 'チームワーク',
+    text: 'グループの一員として協力するのが好き',
+    aruaru: '一人で全部やるより、誰かと組んでやる方がパフォーマンス上がる。「みんなで勝つ」がエモい。誰かが浮いてると気になって声をかけにいく。スポーツ・部活の経験を引きずってる',
+    biz: 'チームスポーツ的な営業組織・プロジェクト型の仕事で強い'
+  },
+  {
+    virtue: '正義', strength: 'リーダーシップ',
+    text: '人を巻き込んで何かを実現するのが得意',
+    aruaru: '会議の空気でいつの間にか進行役になっている。「で、誰が何をいつまでにやる？」を勝手にまとめる。期待されるとそれに応えたくなる。役職がなくても自然に役割を作っていく',
+    biz: 'マネージャー・PM・経営層・事業責任者で強い'
+  },
+  {
+    virtue: '節制', strength: '自律心',
+    text: '失敗しても自分を責めすぎず、切り替えられる',
+    aruaru: '感情に振り回されにくい。「ま、しょうがないか」で切り替えられる。寝たら大体リセットできる。SNSの炎上を他人事として観察できる。長期的なメンタル安定がある',
+    biz: '高ストレス職・営業ノルマ業務・経営判断系で強い'
+  },
+  {
+    virtue: '節制', strength: '思慮深さ',
+    text: '動く前にリスクや結果を慎重に考える',
+    aruaru: 'ノリで決めるのが苦手。買い物前にレビューを必ず読む。「もし失敗したら…」を3パターン考えてから動く。即決の人を見ると不安になるが、自分はそれで救われた経験が多い',
+    biz: '管理職・リスク管理・財務・契約・法務系で強い'
+  },
+  {
+    virtue: '超越性', strength: '希望',
+    text: 'ピンチでも「なんとかなる」と本気で思える',
+    aruaru: 'ピンチの時に「何とかなるでしょ」と本気で思える。周囲が暗くなってる時に明るい未来の話をしがち。人の可能性を信じる。「いやいや、まだ終わってないよ」が口癖',
+    biz: '起業・営業・教育・コーチング・チームの士気を上げる役で強い'
+  },
+  {
+    virtue: '超越性', strength: 'ユーモア',
+    text: '人を笑わせるのが好きで、しかも得意な方',
+    aruaru: '重い空気を笑いで救うのが癖。LINEのスタンプ選びにこだわる。会議でつい一言オチを入れたくなる。シリアスな話の途中で笑える話を挟む。場が和むと自分も救われる',
+    biz: 'プレゼン・SNS発信・接客・チームビルダー・コンテンツ制作で強い'
+  }
+];
+
+// --- 手相 12項目（基本形2 + 主要4線 + 特殊線4 + 丘の発達2）---
+const palmQuestions = [
+  {
+    id: 'palmShape',
+    text: '手のひらの形は？',
+    choices: [
+      { v: 'square', t: '正方形に近い（縦横ほぼ同じ）' },
+      { v: 'long', t: '縦長（手首から指先までが長い）' }
+    ]
+  },
+  {
+    id: 'fingerLength',
+    text: '指の長さ（手のひらと比べて）は？',
+    choices: [
+      { v: 'short', t: '短め（手のひらより明らかに短い）' },
+      { v: 'long', t: '長め（手のひらと同じか長い）' }
+    ]
+  },
+  {
+    id: 'life_line',
+    text: '生命線（親指と人差し指の間から手首方向にカーブする線）は？',
+    choices: [
+      { v: 'long_deep', t: '長く・濃く・きれいなカーブ（生命力強・健康）' },
+      { v: 'long_thin', t: '長いが細い（粘り強いがエネルギー控えめ）' },
+      { v: 'short', t: '短い／途切れ（体力波あり・転機多い）' }
+    ]
+  },
+  {
+    id: 'head_direction',
+    text: '頭脳線（人差し指側から手のひらを横切る線）の方向は？',
+    choices: [
+      { v: 'horizontal', t: 'ほぼ水平（現実的・実務型）' },
+      { v: 'down', t: '下向きにカーブ（理想・空想型）' },
+      { v: 'short', t: '短い（直感型・即決型）' }
+    ]
+  },
+  {
+    id: 'heart_line',
+    text: '感情線（小指側から人差し指方向に伸びる線）は？',
+    choices: [
+      { v: 'long_curve', t: '長くカーブ（情熱的・愛情表現が豊か）' },
+      { v: 'long_straight', t: '長く直線的（クール・愛情は内に秘める）' },
+      { v: 'short', t: '短い・途切れ（恋愛より仕事/趣味優先）' }
+    ]
+  },
+  {
+    id: 'fate_line',
+    text: '運命線（手首から中指方向に縦に伸びる線）の状態は？',
+    choices: [
+      { v: 'strong', t: 'はっきり太く伸びている（人生の目的が明確）' },
+      { v: 'weak', t: 'ぼんやり／途切れ（柔軟・流動的な人生）' },
+      { v: 'none', t: 'ほとんど見えない（自由人・自分のペース）' }
+    ]
+  },
+  {
+    id: 'sun_line',
+    text: '太陽線（薬指の付け根方向に伸びる線）はある？',
+    choices: [
+      { v: 'strong', t: 'はっきりある（人気運・成功運）' },
+      { v: 'short', t: '短くある（じわじわ成功型）' },
+      { v: 'no', t: 'ない（地道型・舞台裏で輝く）' }
+    ]
+  },
+  {
+    id: 'masukake',
+    text: 'ますかけ線（感情線と頭脳線が一本につながり手を横切る線）はある？',
+    choices: [
+      { v: 'yes', t: 'ある（手を横切る一本の線がはっきり）' },
+      { v: 'partial', t: '部分的にある／変形タイプ' },
+      { v: 'no', t: 'ない' }
+    ]
+  },
+  {
+    id: 'mystic_cross',
+    text: '神秘十字線（頭脳線と感情線の間に十字マーク）はある？',
+    choices: [
+      { v: 'yes', t: 'ある（第六感・スピリチュアル感性）' },
+      { v: 'no', t: 'ない' }
+    ]
+  },
+  {
+    id: 'buddha_eye',
+    text: '仏眼相（親指第一関節に目の形をした輪状の線）はある？',
+    choices: [
+      { v: 'both', t: '両手にある（記憶力・直感の天才）' },
+      { v: 'one', t: '片手だけある' },
+      { v: 'no', t: 'ない' }
+    ]
+  },
+  {
+    id: 'venus_mount',
+    text: '金星丘（親指の付け根の膨らみ）の発達は？',
+    choices: [
+      { v: 'developed', t: 'ふっくら発達（愛情豊か・体力あり）' },
+      { v: 'normal', t: '普通' },
+      { v: 'flat', t: '平坦（クール・体力波あり）' }
+    ]
+  },
+  {
+    id: 'moon_mount',
+    text: '月丘（小指側の手首近くの膨らみ）の発達は？',
+    choices: [
+      { v: 'developed', t: 'ふっくら発達（想像力・芸術性・直感が高い）' },
+      { v: 'normal', t: '普通' },
+      { v: 'flat', t: '平坦（現実主義）' }
+    ]
+  },
+  {
+    id: 'money_line',
+    text: '財運線（小指の付け根に向かう短い縦線）は？',
+    choices: [
+      { v: 'strong', t: '濃くはっきり1本（金運・蓄財力あり）' },
+      { v: 'multi', t: '複数本ある（複数収入源・お金が動く）' },
+      { v: 'no', t: 'ない／薄い（お金より別の価値観）' }
+    ]
+  },
+  {
+    id: 'marriage_line',
+    text: '結婚線（小指の下、手の側面に横に伸びる線）の本数は？',
+    choices: [
+      { v: 'one_deep', t: '1本くっきり（深い1人との関係）' },
+      { v: 'two_three', t: '2〜3本（恋愛関係の機会が複数）' },
+      { v: 'many', t: '4本以上／とても薄い（結婚に縛られない自由型）' }
+    ]
+  },
+  {
+    id: 'effort_line',
+    text: '努力線（金星丘から人差し指方向に上向きに伸びる線）は？',
+    choices: [
+      { v: 'yes', t: 'ある（地道な努力で道を切り開く相）' },
+      { v: 'no', t: 'ない' }
+    ]
+  },
+  {
+    id: 'rise_line',
+    text: '向上線（生命線から上向きに枝分かれする短い線）は？',
+    choices: [
+      { v: 'yes', t: 'ある（目標達成・上昇志向の相）' },
+      { v: 'no', t: 'ない' }
+    ]
+  },
+  {
+    id: 'tamanokoshi',
+    text: '玉の輿線（小指側手首から運命線に向かう斜めの線）は？',
+    choices: [
+      { v: 'yes', t: 'ある（パートナー運・引き上げてくれる縁の相）' },
+      { v: 'no', t: 'ない' }
+    ]
+  }
+];
+
+// --- 60干支 ---
+const SEXAGENARY = [
+  '甲子','乙丑','丙寅','丁卯','戊辰','己巳','庚午','辛未','壬申','癸酉',
+  '甲戌','乙亥','丙子','丁丑','戊寅','己卯','庚辰','辛巳','壬午','癸未',
+  '甲申','乙酉','丙戌','丁亥','戊子','己丑','庚寅','辛卯','壬辰','癸巳',
+  '甲午','乙未','丙申','丁酉','戊戌','己亥','庚子','辛丑','壬寅','癸卯',
+  '甲辰','乙巳','丙午','丁未','戊申','己酉','庚戌','辛亥','壬子','癸丑',
+  '甲寅','乙卯','丙辰','丁巳','戊午','己未','庚申','辛酉','壬戌','癸亥'
+];
+
+// --- 日干10種 ---
+const NIKKAN = {
+  '甲': {
+    name: '甲（きのえ）', element: '木の陽・大樹',
+    desc: 'のびやかな上昇志向、芯が太いリーダー資質。曲がらず真っ直ぐ天に伸びる大木',
+    aruaru: '「とりあえず一番高いところに登りたい」気質。負けず嫌いだけど態度には出さない。曲げられるくらいなら折れる方を選ぶ頑固さ。長男・長女気質で、頼られるとつい背負う。組織で気づくとトップに祭り上げられがち'
+  },
+  '乙': {
+    name: '乙（きのと）', element: '木の陰・草花',
+    desc: '柔軟で協調性、芸術的感性、しなやかな粘り強さ。風に揺れても根は深い',
+    aruaru: '表は穏やかで「全然いいよ〜」が口癖だけど、譲れない部分は絶対に譲らない。空気を読むのが上手すぎて疲れる。芸能人・アーティストにめちゃくちゃ多い干。人当たりが良すぎて損することがある'
+  },
+  '丙': {
+    name: '丙（ひのえ）', element: '火の陽・太陽',
+    desc: '明るく裏表なし、主役級の存在感。場を照らすカリスマ',
+    aruaru: '部屋に入った瞬間に空気が変わるタイプ。テンションの幅が大きく、上がってる時は最強。裏表がなさすぎて時々無神経と言われる。注目されないと寂しい。星野源・国分太一・新海誠系の干'
+  },
+  '丁': {
+    name: '丁（ひのと）', element: '火の陰・灯火',
+    desc: '繊細で優しく、影で人を温める。揺らぐが消えない蝋燭',
+    aruaru: '「私なんて」と言いつつ、実は誰よりも繊細に空気を読んでいる。一対一の対話に深さがある。芸術・音楽・文章に惹かれる。神経が細くてストレスを溜めやすいので休む技術が必要'
+  },
+  '戊': {
+    name: '戊（つちのえ）', element: '土の陽・山岳',
+    desc: 'どっしり信頼、保守的で安定志向、頼られる山',
+    aruaru: '「あの人がいれば大丈夫」と無言で思わせる存在感。動かない・動じないが武器。流行に乗らず本質志向。一度懐に入れた人は最後まで守る。リアクションが薄いと言われがちだけど、内側ではちゃんと感じている'
+  },
+  '己': {
+    name: '己（つちのと）', element: '土の陰・田畑',
+    desc: '人を育てる土壌、地味でも粘り強い母性',
+    aruaru: '誰かが芽を出すための土になる仕事に向く。教師・コーチ・人事・親業で輝く。自分の手柄より「あの子が育った」が嬉しい。地味な作業を黙々とやれる。ただし溜め込みすぎて疲弊しやすい'
+  },
+  '庚': {
+    name: '庚（かのえ）', element: '金の陽・刀剣',
+    desc: '硬派で男気、白黒はっきり、義理人情のリーダー',
+    aruaru: '曖昧が嫌い、「で、やるの？やらないの？」とすぐ詰める。義理人情に厚く、世話になった人への恩は絶対に返す。鋭い言葉で人を切ってしまうこともあるが、本人は正直なだけ。土方十四郎・冨岡義勇系'
+  },
+  '辛': {
+    name: '辛（かのと）', element: '金の陰・宝石',
+    desc: '美意識とプライド、繊細で潔癖、磨かれたい宝石',
+    aruaru: '物・人・空間の「品質」に異常にこだわる。安っぽい扱いが本気で許せない。職人気質で、自分の領域では妥協なし。プライドが邪魔して相談できないのが弱点。沖田総悟・トラファルガー・ロー的'
+  },
+  '壬': {
+    name: '壬（みずのえ）', element: '水の陽・大河',
+    desc: '器が大きく流動的、自由・知性・包容力の人',
+    aruaru: 'スケールがでかい話に惹かれる。「とりあえず海外行ってみよう」が成立する。誰でも受け入れる懐の深さがあるが、本当の自分は誰にも見せていない。自由を奪われると一気に枯れる'
+  },
+  '癸': {
+    name: '癸（みずのと）', element: '水の陰・露',
+    desc: '知的で精神的、内省的、神秘的、感受性豊か',
+    aruaru: '人の感情の機微にめちゃくちゃ敏感。「あの人今ちょっと無理してる」がすぐ分かる。芸術・スピリチュアル・心理学に惹かれる。雨の日が好き。静かな夜に本当の自分が出てくる。坂本龍一・宮崎駿系'
+  }
+};
+
+// --- 動物占い 12動物 ---
+const ANIMALS = [
+  {
+    name: 'チータ', group: 'SUN',
+    desc: 'スピード重視・即断即決の瞬発力タイプ。考えるより先に走り出す',
+    aruaru: '「とりあえずやってみよう」が口癖。新しいサービスは即課金して試す。会議で結論出ないとイライラする。スタートダッシュは爆速だけど、半年経つと飽きて次に行く。短距離走のチャンピオンで長距離走は苦手',
+    work: '新規事業立ち上げ・営業の最前線・トレンド系の仕事',
+    weakness: '飽きっぽさ・継続が苦手・地味な作業を避けがち'
+  },
+  {
+    name: 'たぬき', group: 'MOON',
+    desc: '古風で世渡り上手、信頼感の人。年上に可愛がられ、若手から頼られる',
+    aruaru: '初対面でも何故か昔からの知り合いっぽい雰囲気を出せる。「老舗が好き」「変わらない味が一番」って言いがち。組織の中で気づくと中間管理職的なポジションにいる。芸能界・経営者層にめちゃくちゃ多い',
+    work: '組織の調整役・老舗系のビジネス・接客・営業',
+    weakness: '保守的すぎて変化を嫌う・新しいツールを覚えるのが遅い'
+  },
+  {
+    name: '猿', group: 'EARTH',
+    desc: '器用・好奇心旺盛・サービス精神。場の空気を読んで瞬時に動ける',
+    aruaru: '会議で気づいたら主導権握ってる。話を振られたら瞬時にオチまで持っていける。LINEのレスが異常に速い。新しいアプリは大体入れてる。「あ、それ知ってる」って言いがち。退屈な人と話すのが本気で苦痛',
+    work: '営業・マーケ・MC・コンサル・SNS運用',
+    weakness: '深く考えるのが苦手・コロコロ意見が変わる・飽き性'
+  },
+  {
+    name: '子守熊（コアラ）', group: 'EARTH',
+    desc: 'マイペース・癒し系・夜行性。論理派で独自の世界観を持つ',
+    aruaru: '夜になると本領発揮。深夜にめちゃくちゃ集中できる。朝弱い。「で、結論は？」って聞かれるけど自分は結論出すまでに時間がかかる。一見ぼーっとしてるけど内側では論理を組み立てている。ソファで寝るのが至福',
+    work: '研究・分析・編集・夜型の制作系',
+    weakness: '朝が弱い・スピード勝負に弱い・人付き合いを最小化したがる'
+  },
+  {
+    name: '黒ひょう', group: 'MOON',
+    desc: '美意識高くトレンドフォロワー、メンツと面倒見の人',
+    aruaru: '服・髪型・持ち物に明確なこだわり。後輩を奢りがち。「ダサい」が一番のNG。インスタの投稿に時間かける。流行ものはチェック必須。実は不器用で本気の好意は隠す',
+    work: 'クリエイティブ・ファッション・美容・ブランディング',
+    weakness: '見栄を張る・本音を言えない・プライドが邪魔をする'
+  },
+  {
+    name: '虎', group: 'EARTH',
+    desc: '実直・面倒見良く義理人情、バランス感覚の人',
+    aruaru: '頼まれると断れない。「自分のことは後回し」が癖。決めたことはとことんやる。義理人情に弱く、恩は絶対に返す。独占欲がやや強め、特に大事な人には',
+    work: 'マネジメント・教育・トレーナー・サービス業',
+    weakness: '抱え込みすぎる・自分のケアを後回し・燃え尽きやすい'
+  },
+  {
+    name: 'こじか', group: 'MOON',
+    desc: '繊細で警戒心強いが、懐くと深い愛情。純粋さと甘え上手',
+    aruaru: '初対面はめちゃくちゃ警戒する。だけど信頼できると分かった瞬間に距離がゼロになる。「人見知りなんで」って自己紹介で言いがち。SNSの裏垢で本音を吐き出す。動物・小さい子に異常に好かれる',
+    work: '対人ケア系・専門職で信頼関係を深める仕事',
+    weakness: '心を開くまで時間がかかる・嫌な人が忘れられない'
+  },
+  {
+    name: '狼', group: 'EARTH',
+    desc: '一匹狼・独自のペース・束縛嫌い・職人気質',
+    aruaru: '人と会った後ぐったりして1人時間が必須。「みんなで〇〇しよう」が苦手。マイルールがめちゃくちゃ明確。流行は一周遅れで来る。同じ店・同じメニューを愛する。質問を質問で返されるのが嫌い',
+    work: '専門職・研究・職人・フリーランス',
+    weakness: '群れない・組織で浮く・「協調性がない」と評されがち'
+  },
+  {
+    name: 'ライオン', group: 'SUN',
+    desc: 'プライド高くリーダー気質・礼儀礼節を重んじる王者',
+    aruaru: '雑に扱われるのが本気で許せない。「俺をVIP扱いしてくれる店」を覚える。後輩への奢りは多めだが、その分敬意は要求する。立ち振る舞いに品がある。大人数の前で話すのに緊張しない',
+    work: '経営者・幹部・士業・士気を上げるリーダー職',
+    weakness: 'プライドが邪魔して相談できない・指摘に弱い'
+  },
+  {
+    name: 'ペガサス', group: 'MOON',
+    desc: '天才肌・自由奔放・直感の人。唯一の架空動物',
+    aruaru: '気分の波が天と地ほどある。乗ってる時は神がかった集中力、ダメな時は何もできない。「なんとなく」で重要な決定をする、しかも当たる。海外好き・無国籍料理好き。ルーティンが苦痛。締切間際に天才性を発揮',
+    work: 'クリエイター・芸術家・型にはまらない仕事全般',
+    weakness: '気分屋・継続が苦手・組織不適合'
+  },
+  {
+    name: 'ゾウ', group: 'SUN',
+    desc: '努力家・忍耐強い・地道・専門性を極める大物',
+    aruaru: '一度決めたら何年でもやる。「コツコツ」が美学。派手さはないが気づいたら一目置かれる存在になっている。人脈は狭く深く。同じ職場に10年以上いがち。お酒は強い人が多い',
+    work: '専門職・経営者・職人・長期プロジェクト',
+    weakness: '頑固・新しいやり方を取り入れるのが遅い・燃え尽きやすい'
+  },
+  {
+    name: 'ひつじ', group: 'MOON',
+    desc: '協調性高く情報通、頼られると嬉しい群れの人',
+    aruaru: '人脈マップが頭に入ってる。「あの人ならこれ知ってるかも」が口癖。一人だと寂しくて誰かに連絡したくなる。「ねえ聞いて」がよく出る。グループLINEの返信担当。八方美人と言われがちだが本人は良かれと思ってる',
+    work: '営業・コミュニティマネージャー・人事・カスタマーサクセス',
+    weakness: '一人が苦手・八方美人で本音が見えにくい・断れない'
+  }
+];
+
+// 60キャラ→12動物マッピング（簡易版・干支パターンベース）
+// ※本実装時は弦本式正規対応表に置き換え
+const ANIMAL_MAP_60 = [
+   0, 1, 2, 3, 4, 5, 6, 7, 8, 9,    //  1-10
+  10,11, 0, 1, 2, 3, 4, 5, 6, 7,    // 11-20
+   8, 9,10,11, 0, 1, 2, 3, 4, 5,    // 21-30
+   6, 7, 8, 9,10,11, 0, 1, 2, 3,    // 31-40
+   4, 5, 6, 7, 8, 9,10,11, 0, 1,    // 41-50
+   2, 3, 4, 5, 6, 7, 8, 9,10,11     // 51-60
+];
+
+// --- 16タイプの著名人DB（拡張版：K-POP・Apex・呪術・鬼滅・ハイキュー他校・YouTuber含む）---
+const MBTI_CELEBS = {
+  'INTJ': {
+    anime: ['高杉晋助(銀魂)','うちはサスケ','うちはイタチ','千手扉間','シャア・アズナブル','ジーク・イェーガー','碇ゲンドウ','ニコ・ロビン','ヴォルデモート','五条悟(呪術)','産屋敷耀哉(鬼滅)','宿儺','宮治(ハイキュー稲荷崎)'],
+    real: ['イーロン・マスク','マーク・ザッカーバーグ','ニュートン','ピーター・ティール','マーガレット・サッチャー','ノーラン監督','孫正義','本田宗一郎','新海誠','RM(BTS)','スガ(BTS)']
+  },
+  'INTP': {
+    anime: ['坂田銀時(銀魂)','はたけカカシ','アムロ・レイ','テム・レイ','渚カヲル','L','赤木リツコ','五条悟(別解釈)','孤爪研磨(ハイキュー音駒)','禰豆子(鬼滅)'],
+    real: ['アインシュタイン','ビル・ゲイツ','ダーウィン','ひろゆき','武田双雲','SUGA(BTS)','ヒョンジン(SKZ)']
+  },
+  'ENTJ': {
+    anime: ['エルヴィン・スミス','エボシ御前','両面宿儺','綱手','クシャナ','イルミ・ゾルディック','宮侑(ハイキュー稲荷崎)'],
+    real: ['スティーブ・ジョブズ','ナポレオン','ベルナール・アルノー','マイケル・デル','松下幸之助','柳井正','三木谷浩史','RM(BTS)','カリナ(aespa)']
+  },
+  'ENTP': {
+    anime: ['坂本辰馬(銀魂)','マリ・イラストリアス','加持リョウジ','ハンジ・ゾエ','天童覚(白鳥沢)','黒尾鉄朗(音駒)','自来也','宿儺(別解釈)','釘崎野薔薇(呪術)','善逸(鬼滅)'],
+    real: ['エジソン','マーク・トウェイン','オスカー・ワイルド','ダ・ヴィンチ','明石家さんま','岡村隆史','古舘伊知郎','田村淳','J-HOPE(BTS)','フィリックス(SKZ)']
+  },
+  'INFJ': {
+    anime: ['桂小太郎(銀魂)','波風ミナト','坂田銀時(白夜叉時代)','碇シンジ','渚カヲル','アシタカ','うちはイタチ(別解釈)','ハク','アルミン','ナナバ','ナウシカ(T解釈)','君麻呂','白(NARUTO)','赤葦京治(梟谷)','武田一鉄','栗花落カナヲ(鬼滅)','虎杖悠仁(深層)','禰豆子(別解釈)'],
+    real: ['マザー・テレサ','ガンディー','マーティン・ルーサー・キング Jr.','ネルソン・マンデラ','プラトン','ニコール・キッドマン(本人公表)','テイラー・スウィフト(本人公表)','レディー・ガガ','ジミー・カーター','坂本龍一','宮崎駿','稲盛和夫','羽生善治','V(BTS・本人公表)','ジス(BLACKPINK)']
+  },
+  'INFP': {
+    anime: ['千尋(千と千尋)','ハサウェイ・ノア','ララァ・スン','月島雫','エレン(後期)','山口忠(ハイキュー)','虎杖悠仁(別解釈)','炭治郎(別解釈)','ロロア(?)','クシナ(別解釈)'],
+    real: ['シェイクスピア','トールキン','ジョニー・デップ','ジョン・レノン','オードリー・ヘプバーン','米津玄師','中島みゆき','ジミン(BTS・本人公表)','I.N(SKZ)']
+  },
+  'ENFJ': {
+    anime: ['千手柱間','猿飛ヒルゼン','近藤勲','徳川茂茂','ナウシカ','うちはシスイ','炭治郎(鬼滅)','五条悟(別解釈)','東堂葵(呪術)','日向翔陽(別解釈)'],
+    real: ['バラク・オバマ','オプラ・ウィンフリー','マイケル・ジャクソン','羽生結弦','ジン(BTS・本人公表)','ジョングク(BTS)','ジェニー(BLACKPINK)']
+  },
+  'ENFP': {
+    anime: ['うずまきナルト','モンキー・D・ルフィ','自来也','メイ(トトロ)','ウソップ','フランキー','西谷夕','炭治郎(別解釈)','虎杖悠仁','日向翔陽(ハイキュー)','善逸(別解釈)','禰豆子(別解釈)','ナタリー(YouTuber)'],
+    real: ['ロビン・ウィリアムズ','ウォルト・ディズニー','ダウニーJr.(別解釈)','エレン・デジェネレス','本田圭佑','草彅剛','J-HOPE(BTS)','チャイル(TWICE)','HIKAKIN(?)']
+  },
+  'ISTJ': {
+    anime: ['土方十四郎(銀魂)','山崎退','柳生九兵衛','ミカサ・アッカーマン','冨岡義勇','七海建人','影山飛雄','サン(もののけ姫)','ジンベエ','禰豆子(別解釈)','黒尾鉄朗(別解釈)','岩泉一(青葉城西)'],
+    real: ['ワシントン','バフェット','メルケル','スターリン','イチロー','大谷翔平','野茂英雄','ジン(BTS・別解釈)']
+  },
+  'ISFJ': {
+    anime: ['志村新八(銀魂)','定春','クリスタ・レンズ','ベルトルト','里見菜穂子','ソフィー(ハウル)','チョッパー','カナヲ(別解釈)','禰豆子(優しさ解釈)','綾波レイ(別解釈)','菅原孝支(ハイキュー)','武田一鉄(別解釈)'],
+    real: ['ローザ・パークス','アン・ハサウェイ','ケイト・ミドルトン','上皇明仁','新垣結衣','V(BTS・別解釈)','ジス(BLACKPINK・別解釈)','スジ']
+  },
+  'ESTJ': {
+    anime: ['志村妙(銀魂)','湯婆婆','ブライト・ノア','エルヴィン(別解釈)','澤村大地','ジャン・キルシュタイン','ライナー・ブラウン','ナミ','ベジータ','綱手(別解釈)','バスク・オム','宇髄天元(鬼滅)','禰豆子の母(?)','大将(?)'],
+    real: ['ヒラリー・クリントン','サッチャー(別解釈)','シェリル・サンドバーグ','池上彰','田中角栄','RM(BTS・別解釈)']
+  },
+  'ESFJ': {
+    anime: ['春野サクラ','うみのイルカ','草壁サツキ','チョッパー(別解釈)','お登勢(銀魂)','キャサリン','ニコ・ロビン(後期)','ブルック','胡蝶しのぶ(鬼滅)','秀華(?)','佐久早聖臣(?)'],
+    real: ['アン・ハサウェイ(別解釈)','テイラー・スウィフト(別解釈)','ジェニファー・ガーナー','黒柳徹子','明石家さんま(別解釈)','ジス(BLACKPINK)','チェヨン(TWICE)']
+  },
+  'ISTP': {
+    anime: ['坂田銀時(白夜叉以後・ISTP説)','沖田総悟','服部全蔵','ロロノア・ゾロ','流川楓','空条承太郎','リヴァイ・アッカーマン','凪征士郎','アムロ(別解釈)','アニ・レオンハート','宿儺(別解釈)','胡蝶しのぶ(別解釈)'],
+    real: ['クリント・イーストウッド','ブルース・リー','マイケル・ジョーダン','イチロー(別解釈)','キアヌ・リーブス','ユンギ(BTS・別解釈)','ハン(SKZ)']
+  },
+  'ISFP': {
+    anime: ['シータ','千尋(別解釈)','清太','アリエッティ','清水潔子','マルコ・ボット','谷地仁花','虎杖悠仁(別解釈)','エレン(ISFP説)','禰豆子(別解釈)','日向翔陽(別解釈)','炭治郎(ISFP説)'],
+    real: ['M.ジャクソン(別解釈)','オードリー・ヘプバーン(別解釈)','デヴィッド・ボウイ','ライアン・ゴズリング','菅田将暉','ジミン(BTS)','V(BTS・別解釈)','リサ(BLACKPINK)']
+  },
+  'ESTP': {
+    anime: ['神威(銀魂)','ドーラ','スレッガー・ロウ','ケニー・アッカーマン','田中龍之介','宮侑(別解釈)','嘴平伊之助','ジョセフ・ジョースター','五条悟(別解釈)','釘崎野薔薇(別解釈)','宇髄天元(別解釈)','吉良吉影'],
+    real: ['マドンナ','ブルース・ウィリス','アントニオ猪木','木村拓哉','ジョングク(BTS・別解釈)','チェヨン(TWICE)']
+  },
+  'ESFP': {
+    anime: ['神楽(銀魂)','モンキー・D・ルフィ(別解釈)','メイ','パズー','キキ','ポニョ','サシャ・ブラウス','クシナ(別解釈)','天沢聖司','善逸(別解釈)','炭治郎(別解釈)','東堂葵(別解釈)','日向翔陽(別解釈)','西谷夕(別解釈)'],
+    real: ['エルヴィス・プレスリー','アデル','ジェイミー・オリヴァー','マリリン・モンロー','渡辺直美','きゃりーぱみゅぱみゅ','ジョングク(BTS)','ジミン(BTS・別解釈)','ナヨン(TWICE)','モモ(TWICE)']
+  }
+};
+
+// --- エニアグラム解説 ---
+const ENNEAGRAM_DESC = {
+  1: {
+    name: '改革する人', fear: '堕落・間違っていること', desire: '正しくありたい', trap: '怒り（抑圧された）',
+    aruaru: '部屋が散らかってると集中できない。誤字脱字を見つけずにいられない。自分にも他人にも「もっとちゃんとできるはず」って思いがち。怒っていないフリが上手いが、内側ではキレている。仕事でも生活でも改善案が止まらない',
+    pinch: '完璧を求めすぎて燃え尽きる／批判的になりすぎる',
+    grow: '7（楽しむ人）の側面を取り入れて、未完成のまま楽しむ練習',
+    celebs: ['土方十四郎','冨岡義勇','アシタカ','イチロー','ガンディー']
+  },
+  2: {
+    name: '助ける人', fear: '愛されないこと', desire: '愛されたい', trap: 'プライド（自己犠牲を盾に）',
+    aruaru: '誰かが困ってると放っておけない。「私がやります」が口癖。自分のニーズより他人のニーズが先に見える。お礼を言われないと地味に傷つく。実は「あなたには私が必要」と思われたい欲求がある',
+    pinch: '頼まれてないのに先回りして疲れる／自己犠牲のアピールが鼻につく',
+    grow: '4（個性的な人）の側面を取り入れて、自分の本当のニーズと向き合う',
+    celebs: ['春野サクラ','チョッパー','イルカ','マザー・テレサ','黒柳徹子']
+  },
+  3: {
+    name: '達成する人', fear: '価値がないと思われること', desire: '成功したい', trap: '虚栄',
+    aruaru: 'プロフィールに肩書きをきちんと書く。SNSで結果は出すけどプロセスの愚痴は出さない。負けは認めない。「で、結果は？」が口癖。常に「次は何で勝つか」を考えている。仕事人間に見えるが本当は「無価値感」が燃料',
+    pinch: '結果が出ないと自分の価値がないと感じる／本音を見せられない',
+    grow: '6（忠実な人）の側面を取り入れて、結果ではなく仲間との繋がりを大事にする',
+    celebs: ['うずまきナルト','及川徹','本田圭佑','オバマ','テイラー・スウィフト']
+  },
+  4: {
+    name: '個性的な人', fear: 'アイデンティティがないこと', desire: '独自でありたい', trap: '嫉妬・憧憬',
+    aruaru: 'みんなと同じ服が嫌。「普通だね」が一番のNGワード。深夜に自分の人生について考えがち。他人と自分を比べて「あの人にはあって自分にはないもの」を数える。芸術・音楽・文章で救われた経験が多い',
+    pinch: '自己憐憫に沈む／他人と比べて嫉妬する',
+    grow: '1（改革する人）の側面を取り入れて、感情に振り回されず実行する',
+    celebs: ['碇シンジ','うちはサスケ','ハク','坂本龍一','米津玄師','マイケル・ジャクソン']
+  },
+  5: {
+    name: '調べる人', fear: '無能であること', desire: '有能でありたい', trap: '強欲（知識の貯蓄）',
+    aruaru: '知らない分野はとりあえず調べてから話したい。即興が苦手。エネルギーを節約したい、雑談で消耗するのは苦痛。一人時間がないと回復しない。「準備不足のまま発言する」のが怖い。本棚・サブスクが多い',
+    pinch: '頭でっかちで動けない／引きこもって人と切れる',
+    grow: '8（挑戦する人）の側面を取り入れて、準備不足でもまず動く',
+    celebs: ['L','緑谷出久','赤木リツコ','アインシュタイン','ビル・ゲイツ']
+  },
+  6: {
+    name: '忠実な人', fear: '支えがないこと', desire: '安全でありたい', trap: '恐れ・不安',
+    aruaru: '最悪のケースを先に考える癖。新しい店・新しい人・新しい仕事に対する警戒心が強い。信頼できる仲間・組織を見つけたら超忠実になる。「これって大丈夫？」と確認しがち。日本人に最も多いタイプとされる',
+    pinch: '不安が先行して動けない／頼りにしすぎて依存する',
+    grow: '9（平和をもたらす人）の側面を取り入れて、心配ごとを手放す',
+    celebs: ['アルミン','志村新八','山崎退','ベジータ','トム・ハンクス']
+  },
+  7: {
+    name: '熱中する人', fear: '苦痛に閉じ込められること', desire: '満たされたい', trap: '暴食（経験の）',
+    aruaru: '次の予定・次の旅行・次の刺激を常に探している。退屈が一番怖い。重い話・暗い話を笑いで流す癖。複数のプロジェクトを同時進行で抱えがち。終わらせるのが苦手。明るく見えて実は痛みを直視するのが怖い',
+    pinch: '広く浅くで何も極められない／痛みから逃げる',
+    grow: '5（調べる人）の側面を取り入れて、一つのことを深く掘る',
+    celebs: ['坂田銀時','モンキー・D・ルフィ','神楽','明石家さんま','タモリ','ロビン・ウィリアムズ']
+  },
+  8: {
+    name: '挑戦する人', fear: 'コントロールされること', desire: '自立したい', trap: '欲望・激情',
+    aruaru: '弱く見られるのが本気で許せない。誰かの指示で動くのが嫌で、結局自分が決めたい。仲間と認めた相手は徹底的に守る。声・存在感がでかい。お酒が強い人が多い。怒ると怖いが、一過性で根に持たない',
+    pinch: '支配的になる／敵を作りすぎる',
+    grow: '2（助ける人）の側面を取り入れて、力ではなく愛で人を動かす',
+    celebs: ['エルヴィン・スミス','エボシ御前','ベジータ','高杉晋助','アントニオ猪木','トランプ']
+  },
+  9: {
+    name: '平和をもたらす人', fear: 'つながりが失われること', desire: '平和でありたい', trap: '怠惰（自己忘却）',
+    aruaru: '「どっちでもいいよ」が口癖。対立を避けて自分の意見を後回し。気づいたら一日が終わってる。優柔不断と言われるが本人にはちゃんと優先順位がある（出すのが遅い）。マイペースで、急かされると逆に動けなくなる',
+    pinch: '自分のことを忘れて流される／決断を先延ばしする',
+    grow: '3（達成する人）の側面を取り入れて、自分の願いを世界に出す',
+    celebs: ['孫悟空','トトロ','東峰旭(ハイキュー)','ダライ・ラマ','キアヌ・リーブス']
+  }
+};
+
+// --- MBTI 16タイプ キャッチコピー＋あるある ---
+const MBTI_DESC = {
+  'INTJ': { tag: '長期戦略の建築家', aruaru: '5年後10年後を逆算してから動く。雑談が苦痛。「で、目的は？」と聞きがち。能力主義で、無能な権威に従えない' },
+  'INTP': { tag: '内省する分析の人', aruaru: '頭の中の議論で1日終わる。表面はゆるいが、内側では誰も追いつけない論理を組んでる。「正確には〜」と訂正しがち。締切ギリギリに本気を出す' },
+  'ENTJ': { tag: '結果から逆算する指揮官', aruaru: '会議で勝手に進行役になる。グダグダの議論を見ると引き取って結論を出す。「で、誰がいつまでにやるの？」が口癖。トップに立つと水を得た魚' },
+  'ENTP': { tag: '議論で世界を壊す討論者', aruaru: '常識を疑うのが快感。「いやでも、それってさ…」で会話が始まる。新しいアイデアを思いつく速度が速いが、形にする前に飽きる' },
+  'INFJ': { tag: '内なる理想を抱える提唱者', aruaru: '初対面の人の本質を10秒で見抜く。表は穏やかだが内側では強い使命感が燃えている。一見社交的だが本質的には超内向。人類の救済を真顔で考える' },
+  'INFP': { tag: '独自の価値観を守る詩人', aruaru: '心が動かないと書けない・働けない。価値観に反することは絶対にやらない。一人で世界を構築する。誤解されて傷つくが、それを書いて昇華する' },
+  'ENFJ': { tag: '人を巻き込む主人公', aruaru: '集団の温度を上げるのが上手い。誰かが困ってると自分の予定を後回しにする。「あなたなら出来る」と心から言える。期待されると応えたくなる' },
+  'ENFP': { tag: '情熱の火種', aruaru: '新しいことに飛びつく速度が速い。人を覚えるのが得意。場の空気を一瞬で明るくする。長期の事務作業が苦痛で全部後回しにしがち' },
+  'ISTJ': { tag: '規律を守る管理者', aruaru: 'ルーティンを愛する。約束は絶対守る。曖昧な指示にイラつく。データと前例で語る。派手さはないが組織から最も信頼される存在' },
+  'ISFJ': { tag: '静かに守る擁護者', aruaru: '誰が誰の好みかを覚えている。記念日を覚えていて贈り物が上手い。「私のことはいいから」と言いがち。実は深い愛情と忍耐の塊' },
+  'ESTJ': { tag: '組織を回す幹部', aruaru: '効率と秩序が好き。ToDoとカレンダーで人生を制御している。「ルールはルール」と曲げない。リーダーになると組織が回り出す' },
+  'ESFJ': { tag: '気配りで場を整える世話役', aruaru: '誰が浮いてるか・誰が困ってるか即座に察知する。お土産・差し入れの神。グループの「お母さん」「お父さん」役になりがち' },
+  'ISTP': { tag: '寡黙な巨匠', aruaru: '言葉より手が動く。機械・道具・身体スキルが好き。緊急時に冷静。雑談を最小化、本当に必要なことだけ話す。職人気質' },
+  'ISFP': { tag: '美意識の冒険家', aruaru: '美しいものに弱い。空気を読むのが超上手い。自分の世界観を持っているが押し付けない。言葉より行動・作品で示す' },
+  'ESTP': { tag: '現場の起業家', aruaru: 'ルールより現場の勘で動く。トラブルが起きてからが本領発揮。退屈が嫌い、刺激を求めて新しい場所へ。スポーツ・営業・実業に強い' },
+  'ESFP': { tag: '空気を変えるエンタメ人', aruaru: '入った瞬間に場が明るくなる。今この瞬間を全力で楽しむ。細かい計画より直感。みんなで盛り上がるのが何より好き' }
+};
+
+// ===========================================================================
+// 質問描画
+// ===========================================================================
+
+function renderLikert(prefix, idx, text, scale = ['全く違う','違う','どちらでもない','その通り','まさにその通り']) {
+  const opts = scale.map((label, i) => {
+    const value = i - 2; // -2 〜 +2
+    return `<label><input type="radio" name="${prefix}_${idx}" value="${value}"><span>${label}</span></label>`;
+  }).join('');
+  return `<div class="question">
+    <div class="q-text">Q${idx+1}. ${text}</div>
+    <div class="likert">${opts}</div>
+  </div>`;
+}
+
+function renderChoiceList(prefix, idx, text, choices) {
+  const opts = choices.map(c =>
+    `<label><input type="radio" name="${prefix}_${idx}" value="${c.v}">${c.t}</label>`
+  ).join('');
+  return `<div class="question">
+    <div class="q-text">Q${idx+1}. ${text}</div>
+    <div class="choice-list">${opts}</div>
+  </div>`;
+}
+
+function init() {
+  document.getElementById('mbti-questions').innerHTML =
+    mbtiQuestions.map((q, i) => renderLikert('mbti', i, q.text)).join('');
+
+  document.getElementById('enneagram-questions').innerHTML =
+    enneagramQuestions.map((q, i) => renderLikert('enn', i, q.text)).join('');
+
+  document.getElementById('enneagram-health-questions').innerHTML =
+    enneagramHealthQuestions.map((q, i) => renderLikert('ennh', i, q.text)).join('');
+
+  document.getElementById('via-questions').innerHTML =
+    viaQuestions.map((q, i) => renderLikert('via', i, q.text)).join('');
+
+  document.getElementById('palm-questions').innerHTML =
+    palmQuestions.map((q, i) => renderChoiceList('palm', i, q.text, q.choices)).join('');
+}
+
+function goStep(name) {
+  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+  document.getElementById(`step-${name}`).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ===========================================================================
+// 各診断の集計・遷移
+// ===========================================================================
+
+const state = {};
+
+function getRadioValue(prefix, idx) {
+  const el = document.querySelector(`input[name="${prefix}_${idx}"]:checked`);
+  return el ? Number(el.value) : null;
+}
+
+function nextFromMbti() {
+  const axes = { EI: 0, SN: 0, TF: 0, JP: 0, AT: 0 };
+  const counts = { EI: 0, SN: 0, TF: 0, JP: 0, AT: 0 };
+  for (let i = 0; i < mbtiQuestions.length; i++) {
+    const v = getRadioValue('mbti', i);
+    if (v === null) { alert(`Q${i+1}が未回答です`); return; }
+    const q = mbtiQuestions[i];
+    const sign = q.reverse ? -1 : 1;
+    axes[q.axis] += v * sign;
+    counts[q.axis] += 2; // max contribution per question
+  }
+  const type =
+    (axes.EI >= 0 ? 'E' : 'I') +
+    (axes.SN >= 0 ? 'N' : 'S') +
+    (axes.TF >= 0 ? 'F' : 'T') +
+    (axes.JP >= 0 ? 'J' : 'P');
+  const at = axes.AT >= 0 ? 'T' : 'A';
+  const pct = (axis) => Math.round(50 + (axes[axis] / counts[axis]) * 50);
+  state.mbti = {
+    type, at,
+    fullType: `${type}-${at}`,
+    pct: { EI: pct('EI'), SN: pct('SN'), TF: pct('TF'), JP: pct('JP'), AT: pct('AT') },
+    raw: axes
+  };
+  goStep('enneagram');
+}
+
+function nextFromEnneagram() {
+  const scores = {};
+  for (let i = 0; i < enneagramQuestions.length; i++) {
+    const v = getRadioValue('enn', i);
+    if (v === null) { alert(`エニアグラムQ${i+1}が未回答です`); return; }
+    scores[enneagramQuestions[i].type] = v + 2; // 0〜4に正規化
+  }
+  // 最高得点 = ベースタイプ、隣接で高い方をウィング
+  let baseType = 1, max = -1;
+  for (const t of Object.keys(scores)) {
+    if (scores[t] > max) { max = scores[t]; baseType = Number(t); }
+  }
+  const left = baseType === 1 ? 9 : baseType - 1;
+  const right = baseType === 9 ? 1 : baseType + 1;
+  const wing = scores[left] >= scores[right] ? left : right;
+
+  // 健全度判定（追加3問）
+  let healthScore = 0;
+  for (let i = 0; i < enneagramHealthQuestions.length; i++) {
+    const v = getRadioValue('ennh', i);
+    if (v === null) { alert(`健全度Q${i+1}が未回答です`); return; }
+    const sign = enneagramHealthQuestions[i].reverse ? -1 : 1;
+    healthScore += v * sign; // -6 〜 +6
+  }
+  // healthScore で 3レベルに分類
+  let healthLevel, healthLabel, healthDesc;
+  if (healthScore >= 3) {
+    healthLevel = 'healthy';
+    healthLabel = '健全レベル（レベル1-3）';
+    healthDesc = 'タイプの強みが解放されている状態。自分を受け入れつつ世界に貢献できている。';
+  } else if (healthScore >= -2) {
+    healthLevel = 'normal';
+    healthLabel = '通常レベル（レベル4-6）';
+    healthDesc = '誰もが日常的にいる状態。タイプのクセに振り回されつつ、なんとかバランスを取っている。';
+  } else {
+    healthLevel = 'stressed';
+    healthLabel = 'ストレスレベル（レベル7-9）';
+    healthDesc = '心身に負荷がかかっている状態。タイプの「囚われ」が強く出やすい。意識して休息と自己ケアを。';
+  }
+
+  state.enneagram = { baseType, wing, scores, full: `${baseType}w${wing}`, healthScore, healthLevel, healthLabel, healthDesc };
+  goStep('via');
+}
+
+function nextFromVia() {
+  const list = [];
+  for (let i = 0; i < viaQuestions.length; i++) {
+    const v = getRadioValue('via', i);
+    if (v === null) { alert(`強み診断Q${i+1}が未回答です`); return; }
+    list.push({ ...viaQuestions[i], score: v + 2 }); // 0〜4
+  }
+  list.sort((a, b) => b.score - a.score);
+  state.via = {
+    top3: list.slice(0, 3),
+    bottom3: list.slice(-3),
+    all: list
+  };
+  goStep('birth');
+}
+
+function nextFromBirth() {
+  const date = document.getElementById('birth-date').value;
+  if (!date) { alert('生年月日を入力してください'); return; }
+  const [y, m, d] = date.split('-').map(Number);
+  const hour = document.getElementById('birth-hour').value;
+
+  // 23時以降は翌日扱い（動物占い・四柱推命の慣例）
+  let by = y, bm = m, bd = d;
+  if (hour && Number(hour) >= 22) { // 22-24は実質23時台含むので翌日に
+    const next = new Date(y, m - 1, d + 1);
+    by = next.getFullYear(); bm = next.getMonth() + 1; bd = next.getDate();
+  }
+
+  // --- 動物占い：1920/1/1基準で累積日数mod60 ---
+  // ※簡易実装。基準オフセットは「1920/1/1=58番（癸亥の翌日想定）」として調整
+  const base = new Date(1920, 0, 1);
+  const target = new Date(by, bm - 1, bd);
+  const diffDays = Math.floor((target - base) / (1000 * 60 * 60 * 24));
+  let charNum = ((diffDays + 7) % 60); // +7は弦本式相当の暫定オフセット
+  if (charNum < 0) charNum += 60;
+  const animalIdx = ANIMAL_MAP_60[charNum];
+  const animal = ANIMALS[animalIdx];
+
+  // --- 四柱推命 日柱：1900/1/1=甲戌(10番目)を起点にmod60 ---
+  const base1900 = new Date(1900, 0, 1);
+  const diff1900 = Math.floor((target - base1900) / (1000 * 60 * 60 * 24));
+  const sexIdx = ((diff1900 + 10) % 60 + 60) % 60;
+  const dayPillar = SEXAGENARY[sexIdx];
+  const nikkanChar = dayPillar.charAt(0);
+
+  // --- 年柱：立春前は前年扱い（簡易：2/3以前）---
+  const yearPillar = calcYearPillar(by, bm, bd);
+  // --- 月柱：節入り平均日テーブルで月干支を算出 ---
+  const monthPillar = calcMonthPillar(by, bm, bd, yearPillar);
+
+  state.birth = {
+    date: `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`,
+    hour,
+    animal: { num: charNum + 1, ...animal },
+    sichu: {
+      dayPillar, nikkan: nikkanChar,
+      yearPillar, monthPillar,
+      ...NIKKAN[nikkanChar]
+    }
+  };
+  goStep('palm');
+}
+
+// --- 年柱算出（立春前は前年扱い・簡易版）---
+function calcYearPillar(year, month, day) {
+  let effectiveYear = year;
+  if (month < 2 || (month === 2 && day < 4)) {
+    effectiveYear = year - 1;
+  }
+  // 1900年=庚子(36番目: 0始まりだとindex36)
+  const idx = ((36 + (effectiveYear - 1900)) % 60 + 60) % 60;
+  return SEXAGENARY[idx];
+}
+
+// --- 月柱算出（節入り平均日テーブル＋五虎遁の法）---
+function calcMonthPillar(year, month, day, yearPillarStr) {
+  // 節入り平均日（実際は年により±1〜2日のズレあり）
+  const setsuiri = { 1:6, 2:4, 3:6, 4:5, 5:6, 6:6, 7:7, 8:8, 9:8, 10:8, 11:7, 12:7 };
+  let effM = month;
+  if (day < setsuiri[month]) {
+    effM = month - 1;
+    if (effM === 0) effM = 12;
+  }
+  // 五虎遁：年干→寅月（=2月）の月干
+  const yearKan = yearPillarStr.charAt(0);
+  const tigerMonthKan = {
+    '甲':'丙','己':'丙','乙':'戊','庚':'戊',
+    '丙':'庚','辛':'庚','丁':'壬','壬':'壬','戊':'甲','癸':'甲'
+  };
+  const kanList = '甲乙丙丁戊己庚辛壬癸';
+  const tigerIdx = kanList.indexOf(tigerMonthKan[yearKan]);
+  const monthOffset = (effM - 2 + 12) % 12; // 寅月=0
+  const monthKanIdx = (tigerIdx + monthOffset) % 10;
+  const monthKan = kanList.charAt(monthKanIdx);
+  // 月支
+  const zhi = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+  const monthZhi = zhi[effM % 12];
+  return monthKan + monthZhi;
+}
+
+// ===========================================================================
+// 結果表示
+// ===========================================================================
+
+function showResult() {
+  // 手相収集
+  const palm = {};
+  for (let i = 0; i < palmQuestions.length; i++) {
+    const el = document.querySelector(`input[name="palm_${i}"]:checked`);
+    if (!el) { alert(`手相Q${i+1}が未回答です`); return; }
+    palm[palmQuestions[i].id] = el.value;
+  }
+  // ハンドタイプ判定
+  const handShape = (() => {
+    if (palm.palmShape === 'square' && palm.fingerLength === 'short') return { name: '地の手', desc: '穏やか・現実的・実用主義・誠実・勤勉。じっくり積み上げる職人タイプ' };
+    if (palm.palmShape === 'long' && palm.fingerLength === 'long') return { name: '水の手', desc: '感受性豊か・直感的・芸術的・神秘的・流されやすい' };
+    if (palm.palmShape === 'long' && palm.fingerLength === 'short') return { name: '火の手', desc: '直感的・情熱的・衝動的・リーダー気質・冒険好き' };
+    return { name: '風の手', desc: '知的・合理的・コミュニケーション巧者・社交的・分析重視' };
+  })();
+  state.palm = { ...palm, handShape };
+
+  renderResult();
+  goStep('result');
+}
+
+function renderResult() {
+  const { mbti, enneagram, via, birth, palm } = state;
+
+  // --- 整合度計算 ---
+  // 外面の外向性（MBTI E/I + 動物グループ + 手の形）
+  let extScore = 0;
+  extScore += (mbti.type[0] === 'E' ? 1 : -1);
+  extScore += (birth.animal.group === 'SUN' ? 1 : birth.animal.group === 'MOON' ? -1 : 0);
+  extScore += (palm.handShape.name === '火の手' || palm.handShape.name === '風の手' ? 1 : -1);
+  // 内面の自己主張（エニア 3,7,8 vs 4,5,9）
+  const e = enneagram.baseType;
+  const innerAssert = [3,7,8].includes(e) ? 1 : [4,5,9].includes(e) ? -1 : 0;
+  const gap = Math.abs(extScore - innerAssert * 3); // 0〜6
+  const gapPct = Math.min(100, Math.round((gap / 6) * 100));
+  let gapLabel = '整合度高（表と裏が一致）';
+  if (gapPct >= 60) gapLabel = '大きなギャップ（表と裏で別の顔）';
+  else if (gapPct >= 30) gapLabel = '中程度のギャップ（場面で変わる）';
+
+  // --- 著名人 ---
+  const celebs = MBTI_CELEBS[mbti.type] || { anime: [], real: [] };
+  const ennCelebs = ENNEAGRAM_DESC[enneagram.baseType].celebs;
+
+  // --- 統合所感（テンプレート生成）---
+  const summary = generateSummary(state, gapLabel);
+
+  const html = `
+    <div class="result-hero">
+      <div class="hero-type-badge">${mbti.fullType}</div>
+      <div class="hero-subtitle">${MBTI_DESC[mbti.type]?.tag || mbti.type}</div>
+      <div class="hero-axis">
+        <span class="hero-axis-item">🌀 エニア ${enneagram.full}</span>
+        <span class="hero-axis-sep">×</span>
+        <span class="hero-axis-item">🐾 ${birth.animal.name}</span>
+        <span class="hero-axis-sep">×</span>
+        <span class="hero-axis-item">✦ ${birth.sichu.dayPillar}</span>
+        <span class="hero-axis-sep">×</span>
+        <span class="hero-axis-item">🤲 ${palm.handShape.name}</span>
+      </div>
+      <div class="hero-strengths">
+        ${via.top3.map(s => `<span class="hero-strength-tag">${s.strength}</span>`).join('')}
+      </div>
+    </div>
+
+    <div class="integration">
+      <h3>あなたという人</h3>
+      <p>${summary}</p>
+    </div>
+
+    <h2>表層：行動パターン（外から見える顔）</h2>
+    <div class="result-block">
+      <div class="label">16タイプ性格診断</div>
+      <div class="value">${mbti.fullType}<span style="font-size:14px;color:var(--text3);font-weight:normal;">　${MBTI_DESC[mbti.type]?.tag || ''}</span></div>
+      <div class="detail">
+        E/I: ${mbti.pct.EI > 50 ? '外向' : '内向'} ${Math.abs(mbti.pct.EI - 50) * 2}% /
+        S/N: ${mbti.pct.SN > 50 ? '直感' : '感覚'} ${Math.abs(mbti.pct.SN - 50) * 2}% /
+        T/F: ${mbti.pct.TF > 50 ? '感情' : '思考'} ${Math.abs(mbti.pct.TF - 50) * 2}% /
+        J/P: ${mbti.pct.JP > 50 ? '判断' : '知覚'} ${Math.abs(mbti.pct.JP - 50) * 2}% /
+        A/T: ${mbti.at === 'T' ? '慎重(自己批判型)' : '確信(自己肯定型)'} ${Math.abs(mbti.pct.AT - 50) * 2}%
+      </div>
+      ${MBTI_DESC[mbti.type] ? `<div class="detail" style="margin-top:8px;background:rgba(159,176,136,0.10);padding:10px;border-radius:4px;border-left:2px solid rgba(159,176,136,0.4);"><strong>${mbti.type}あるある</strong>：${MBTI_DESC[mbti.type].aruaru}</div>` : ''}
+      <div class="celebs">あなたと同じタイプ：
+        ${celebs.anime.map(c => `<span class="tag">${c}</span>`).join('')}
+        ${celebs.real.map(c => `<span class="tag">${c}</span>`).join('')}
+      </div>
+    </div>
+    <div class="result-block">
+      <div class="label">動物占い（表面の動き方）</div>
+      <div class="value">${birth.animal.name}<span style="font-size:13px;color:var(--text3);font-weight:normal;">　${birth.animal.group}グループ・${birth.animal.num}番</span></div>
+      <div class="detail" style="margin-top:4px;">${birth.animal.desc}</div>
+      ${birth.animal.aruaru ? `<div class="detail" style="margin-top:8px;background:rgba(159,176,136,0.10);padding:10px;border-radius:4px;border-left:2px solid rgba(159,176,136,0.4);"><strong>${birth.animal.name}あるある</strong>：${birth.animal.aruaru}</div>` : ''}
+      <div class="detail" style="margin-top:8px;font-size:13px;">
+        <strong>向く仕事</strong>：${birth.animal.work || '—'}<br>
+        <strong>注意点</strong>：${birth.animal.weakness || '—'}
+      </div>
+    </div>
+
+    <h2>中層：内的動機（あなたを動かすもの）</h2>
+    <div class="result-block">
+      <div class="label">エニアグラム</div>
+      <div class="value">タイプ${enneagram.baseType} ${ENNEAGRAM_DESC[enneagram.baseType].name}<span style="font-size:13px;color:var(--text3);font-weight:normal;">　ウィング w${enneagram.wing}</span></div>
+      <div class="detail" style="margin-top:6px;">
+        <strong>根源的欲求</strong>：${ENNEAGRAM_DESC[enneagram.baseType].desire}　／　<strong>根源的恐れ</strong>：${ENNEAGRAM_DESC[enneagram.baseType].fear}　／　<strong>囚われ</strong>：${ENNEAGRAM_DESC[enneagram.baseType].trap}
+      </div>
+      ${ENNEAGRAM_DESC[enneagram.baseType].aruaru ? `<div class="detail" style="margin-top:8px;background:rgba(159,176,136,0.10);padding:10px;border-radius:4px;border-left:2px solid rgba(159,176,136,0.4);"><strong>タイプ${enneagram.baseType}あるある</strong>：${ENNEAGRAM_DESC[enneagram.baseType].aruaru}</div>` : ''}
+      ${ENNEAGRAM_DESC[enneagram.baseType].pinch ? `<div class="detail" style="margin-top:6px;font-size:13px;"><strong>陥りやすい罠</strong>：${ENNEAGRAM_DESC[enneagram.baseType].pinch}<br><strong>成長の方向</strong>：${ENNEAGRAM_DESC[enneagram.baseType].grow}</div>` : ''}
+      <div class="detail" style="margin-top:10px;background:${enneagram.healthLevel === 'healthy' ? 'rgba(52,211,153,0.1)' : enneagram.healthLevel === 'normal' ? 'rgba(251,191,36,0.1)' : 'rgba(248,113,113,0.1)'};padding:10px;border-radius:4px;border-left:3px solid ${enneagram.healthLevel === 'healthy' ? '#34d399' : enneagram.healthLevel === 'normal' ? '#fbbf24' : '#f87171'};">
+        <strong>今の状態：${enneagram.healthLabel}</strong><br>
+        <span style="font-size:13px;">${enneagram.healthDesc}</span>
+      </div>
+      <div class="celebs">同じタイプ：${ennCelebs.map(c => `<span class="tag">${c}</span>`).join('')}</div>
+    </div>
+    <div class="result-block">
+      <div class="label">あなたの強み TOP3（VIA）</div>
+      <div class="value">${via.top3.map(s => s.strength).join(' / ')}</div>
+      <div class="detail" style="margin-top:8px;">
+        ${via.top3.map(s => `
+          <div style="background:rgba(159,176,136,0.10);padding:10px;border-radius:4px;border-left:2px solid rgba(159,176,136,0.4);margin-bottom:8px;">
+            <strong>${s.strength}</strong>（${s.virtue}の美徳）<br>
+            <span style="font-size:13px;">${s.aruaru || s.text}</span>
+            ${s.biz ? `<div style="margin-top:4px;font-size:12px;color:#666;"><strong>活かせる場面</strong>：${s.biz}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+      <details>
+        <summary>逆に低かった強み（伸びしろ）</summary>
+        <div style="padding:8px 0;font-size:13px;">
+          ${via.bottom3.map(s => `<div style="margin-bottom:6px;">・<strong>${s.strength}</strong>：${s.text}</div>`).join('')}
+        </div>
+      </details>
+    </div>
+
+    <h2>基層：先天気質（生まれ持ったもの）</h2>
+    <div class="result-block">
+      <div class="label">四柱推命 三柱</div>
+      <div class="value">年:${birth.sichu.yearPillar}　月:${birth.sichu.monthPillar}　日:${birth.sichu.dayPillar}</div>
+      <div class="detail" style="margin-top:6px;font-size:13px;">
+        <strong>年柱（先祖・幼少期・社会との縁）</strong>：${birth.sichu.yearPillar}<br>
+        <strong>月柱（青年期・仕事・両親との関係）</strong>：${birth.sichu.monthPillar}<br>
+        <strong>日柱（自分の本質・配偶者）</strong>：${birth.sichu.dayPillar}（日干：${birth.sichu.name}）
+      </div>
+      <div class="detail" style="margin-top:6px;"><strong>五行</strong>：${birth.sichu.element}<br>${birth.sichu.desc}</div>
+      ${birth.sichu.aruaru ? `<div class="detail" style="margin-top:8px;background:rgba(159,176,136,0.10);padding:10px;border-radius:4px;border-left:2px solid rgba(159,176,136,0.4);"><strong>${birth.sichu.nikkan}干あるある</strong>：${birth.sichu.aruaru}</div>` : ''}
+      <details>
+        <summary>計算根拠</summary>
+        <div class="logic-detail">日柱：1900/1/1=甲戌を起点に、累積日数を60で割った剰余で算出。23時以降は翌日扱い。
+年柱：立春前（2/3以前）は前年扱い・1900年=庚子から年単位で進める簡易版。
+月柱：節入り平均日（小寒1/6・立春2/4・啓蟄3/6...）と五虎遁の法で算出。年により±1〜2日のズレあり。
+※節入り境界生まれの方は本実装版で正確な節入り日テーブルに置き換え予定。</div>
+      </details>
+    </div>
+    <div class="result-block">
+      <div class="label">手相（身体に現れる気質）</div>
+      <div class="value">${palm.handShape.name}</div>
+      <div class="detail">${palm.handShape.desc}</div>
+
+      ${renderPalmSpecialLines(palm)}
+
+      <div class="detail" style="margin-top:10px;font-size:13px;">
+        <strong>主要4線</strong><br>
+        ・生命線：${({ long_deep: '長く濃い（生命力強・健康）', long_thin: '長いが細い（粘り強い／省エネ型）', short: '短い・途切れ（転機多い人生）' })[palm.life_line]}<br>
+        ・頭脳線：${({ horizontal: '水平（現実主義・実務型）', down: '下向き（理想・空想型）', short: '短め（直感型・即決）' })[palm.head_direction]}<br>
+        ・感情線：${({ long_curve: '長くカーブ（情熱的・愛情表現豊か）', long_straight: '長く直線的（クール・愛情は内に秘める）', short: '短い・途切れ（恋愛より仕事/趣味）' })[palm.heart_line]}<br>
+        ・運命線：${({ strong: 'はっきり（人生の目的が明確）', weak: 'ぼんやり（柔軟・流動的）', none: 'なし（自由人気質）' })[palm.fate_line]}
+      </div>
+
+      <div class="detail" style="margin-top:8px;font-size:13px;">
+        <strong>太陽線・丘の発達</strong><br>
+        ・太陽線：${({ strong: 'はっきり（人気・成功運）', short: '短くあり（じわじわ成功）', no: 'なし（地道に裏方で輝く）' })[palm.sun_line]}<br>
+        ・金星丘：${({ developed: 'ふっくら発達（愛情豊か・体力あり）', normal: '普通', flat: '平坦（クール・体力波）' })[palm.venus_mount]}<br>
+        ・月丘：${({ developed: 'ふっくら発達（想像力・芸術性・直感が高い）', normal: '普通', flat: '平坦（現実主義）' })[palm.moon_mount]}
+      </div>
+    </div>
+
+    ${renderPalmSummary(palm)}
+
+    <h2>整合度：表と裏のギャップ</h2>
+    <div class="result-block">
+      <div class="label">${gapLabel}</div>
+      <div class="gap-bar"><div class="gap-marker" style="left: ${gapPct}%"></div></div>
+      <div class="detail" style="font-size:12px;">左ほど整合的（一貫した人物像）／右ほどギャップ大（場面で別人）</div>
+      <div class="detail" style="margin-top:8px;">
+        外面スコア：${extScore} ／ 内面の自己主張スコア：${innerAssert * 3} ／ ギャップ値：${gap}/6
+      </div>
+    </div>
+
+    ${renderShareBlock(state, gapLabel)}
+
+    <div class="disclaimer">
+      ※本診断は岡田が個人で開発した統合パーソナリティ診断（v1 叩き台）です。<br>
+      ※MBTI/ストレングスファインダー等の公式診断とは別物。質問は独自設計、占い系は計算ロジックのみ流用。<br>
+      ※動物占いの60→12マッピングと四柱推命の起点オフセットは簡易実装です。本実装時は弦本式正規対応表・節入り処理に置き換える予定。
+    </div>
+  `;
+  document.getElementById('result-content').innerHTML = html;
+}
+
+// ===========================================================================
+// SNSシェア機能
+// ===========================================================================
+
+function renderShareBlock(s, gapLabel) {
+  const { mbti, enneagram, via, birth, palm } = s;
+  const tagMbti = MBTI_DESC[mbti.type]?.tag || mbti.fullType;
+  const topStrength = via.top3[0]?.strength || '';
+
+  const shareText = `【6診断統合パーソナリティ】
+${mbti.fullType}「${tagMbti}」× エニア${enneagram.full} × ${birth.animal.name} × 日柱${birth.sichu.dayPillar} × ${palm.handShape.name}
+
+強み：${via.top3.map(s => s.strength).join('・')}
+内側の動機：${ENNEAGRAM_DESC[enneagram.baseType].desire}
+${gapLabel}
+
+#6診断統合 #パーソナリティ診断`;
+
+  const shortText = `俺の統合タイプ：${mbti.fullType}×${birth.animal.name}×${birth.sichu.dayPillar}。強みは${topStrength}。${ENNEAGRAM_DESC[enneagram.baseType].name}の動機で動くタイプらしい。#6診断統合`;
+
+  // Twitter intent URL
+  const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shortText)}`;
+
+  return `
+    <div class="result-block" style="background:rgba(217,182,172,0.07);border:1px solid rgba(217,182,172,0.25);">
+      <div class="label">📤 SNSシェア用テキスト</div>
+      <div style="margin-top:8px;">
+        <div style="font-size:12px;color:var(--text3);margin-bottom:4px;">▼ X(Twitter)用（短い版・140字以内）</div>
+        <textarea id="share-short" rows="3" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit;background:rgba(0,0,0,0.3);color:var(--text2);resize:vertical;">${shortText}</textarea>
+        <div style="display:flex;gap:6px;margin-top:6px;">
+          <button onclick="copyShareText('share-short')" style="flex:1;">コピー</button>
+          <a href="${tweetUrl}" target="_blank" style="flex:1;background:#000;color:#fff;text-align:center;padding:12px 0;text-decoration:none;border-radius:6px;font-size:14px;font-weight:600;">Xで投稿</a>
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <div style="font-size:12px;color:var(--text3);margin-bottom:4px;">▼ 詳細版（ブログ・Notion用）</div>
+        <textarea id="share-long" rows="7" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit;background:rgba(0,0,0,0.3);color:var(--text2);resize:vertical;">${shareText}</textarea>
+        <button onclick="copyShareText('share-long')" style="margin-top:6px;">コピー</button>
+      </div>
+    </div>
+  `;
+}
+
+function copyShareText(elemId) {
+  const ta = document.getElementById(elemId);
+  ta.select();
+  document.execCommand('copy');
+  alert('コピーしました');
+}
+
+// ===========================================================================
+// 手相：特殊線の解説とサマリ
+// ===========================================================================
+
+function renderPalmSpecialLines(palm) {
+  const lines = [];
+
+  if (palm.masukake === 'yes') {
+    lines.push(`<div style="background:rgba(255,152,0,0.1);padding:10px;border-radius:4px;border-left:3px solid #ff9800;margin-top:8px;">
+      <strong>★ますかけ線あり</strong>（100人に1人・両手で1000人に1人）<br>
+      <span style="font-size:13px;">「天下取りの相」。織田信長・豊臣秀吉・徳川家康の伝承、現代ではイチロー・大谷翔平・本田圭佑・明石家さんま・木村拓哉・タモリ・松下幸之助・手塚治虫が同タイプ。強運・特殊な才能・リーダー気質・波乱万丈。一つの道で頂点を目指せる。</span>
+    </div>`);
+  } else if (palm.masukake === 'partial') {
+    lines.push(`<div style="background:rgba(255,193,7,0.08);padding:10px;border-radius:4px;border-left:3px solid #ffc107;margin-top:8px;">
+      <strong>★ますかけ線（変形・離れ型）</strong><br>
+      <span style="font-size:13px;">ますかけ系の素質あり。野茂英雄・宇野昌磨・高橋一生がこのタイプ。本来の集中力を発揮する場面が来ると別人のように覚醒する。</span>
+    </div>`);
+  }
+
+  if (palm.mystic_cross === 'yes') {
+    lines.push(`<div style="background:rgba(52,211,153,0.1);padding:10px;border-radius:4px;border-left:3px solid #4caf50;margin-top:8px;">
+      <strong>★神秘十字線あり</strong><br>
+      <span style="font-size:13px;">第六感・直感の鋭さ・スピリチュアル感性。「あの人ヤバいかも」と理由なく分かる、危険を直感で避ける、夢が当たる、などのエピソードを持つ。先祖・神仏に守られる相とも言われる。</span>
+    </div>`);
+  }
+
+  if (palm.buddha_eye === 'both') {
+    lines.push(`<div style="background:rgba(59,130,246,0.1);padding:10px;border-radius:4px;border-left:3px solid #2196f3;margin-top:8px;">
+      <strong>★仏眼相（両手）</strong><br>
+      <span style="font-size:13px;">記憶力・直感の天才相。手塚治虫・美輪明宏が同タイプ。一度見たもの・聞いたものを忘れない、勘で重要なことを見抜く。芸術家・作家・占術家に多い。</span>
+    </div>`);
+  } else if (palm.buddha_eye === 'one') {
+    lines.push(`<div style="background:rgba(59,130,246,0.1);padding:10px;border-radius:4px;border-left:3px solid #64b5f6;margin-top:8px;">
+      <strong>★仏眼相（片手）</strong><br>
+      <span style="font-size:13px;">利き手なら後天的、反対なら先天的な記憶力・直感の才能。</span>
+    </div>`);
+  }
+
+  // 覇王線（運命線＋太陽線＋財運線が3本とも強い場合）
+  if (palm.fate_line === 'strong' && palm.sun_line === 'strong' && palm.money_line === 'strong') {
+    lines.push(`<div style="background:rgba(236,72,153,0.1);padding:10px;border-radius:4px;border-left:3px solid #e91e63;margin-top:8px;">
+      <strong>★覇王線（億万長者の相）</strong><br>
+      <span style="font-size:13px;">運命線・太陽線・財運線の3本が揃った最強配置。松下幸之助・柳井正・孫正義系。明確な目的＋世に認められる才能＋お金を引き寄せる力の三位一体。</span>
+    </div>`);
+  } else if (palm.fate_line === 'strong' && palm.sun_line === 'strong') {
+    lines.push(`<div style="background:rgba(236,72,153,0.1);padding:10px;border-radius:4px;border-left:3px solid #f06292;margin-top:8px;">
+      <strong>★覇王線の素質あり</strong><br>
+      <span style="font-size:13px;">運命線と太陽線が両方はっきり。あと財運線が出てくれば「億万長者の相」覇王線の完成形。</span>
+    </div>`);
+  }
+
+  // 努力線
+  if (palm.effort_line === 'yes') {
+    lines.push(`<div style="background:rgba(255,152,0,0.1);padding:10px;border-radius:4px;border-left:3px solid #ff9800;margin-top:8px;">
+      <strong>★努力線あり</strong><br>
+      <span style="font-size:13px;">地道な努力で道を切り開くタイプ。コツコツ積み上げた努力が10年後に大きな実りになる。叩き上げの経営者・職人・アスリートに多い。</span>
+    </div>`);
+  }
+
+  // 向上線
+  if (palm.rise_line === 'yes') {
+    lines.push(`<div style="background:rgba(14,165,233,0.1);padding:10px;border-radius:4px;border-left:3px solid #03a9f4;margin-top:8px;">
+      <strong>★向上線あり</strong><br>
+      <span style="font-size:13px;">目標達成・上昇志向の相。「次の自分」を常に視野に入れているタイプ。転職・独立・昇進など人生の階段を意識的に上る人に出やすい。</span>
+    </div>`);
+  }
+
+  // 玉の輿線
+  if (palm.tamanokoshi === 'yes') {
+    lines.push(`<div style="background:rgba(159,176,136,0.12);padding:10px;border-radius:4px;border-left:3px solid #6d7f57;margin-top:8px;">
+      <strong>★玉の輿線あり</strong><br>
+      <span style="font-size:13px;">パートナー運・引き上げてくれる縁の相。性別問わず「自分を高めてくれる相手」と出会いやすい。ビジネスパートナー・恩師・恋愛相手のいずれかで効く。</span>
+    </div>`);
+  }
+
+  // 財運線
+  if (palm.money_line === 'multi') {
+    lines.push(`<div style="background:rgba(52,211,153,0.1);padding:10px;border-radius:4px;border-left:3px solid #66bb6a;margin-top:8px;">
+      <strong>★財運線が複数</strong><br>
+      <span style="font-size:13px;">複数の収入源を持てるタイプ。副業・投資・複業に向く。お金を「動かす」感覚を持っている。</span>
+    </div>`);
+  }
+
+  // 結婚線の解釈
+  if (palm.marriage_line === 'many') {
+    lines.push(`<div style="background:rgba(236,72,153,0.1);padding:10px;border-radius:4px;border-left:3px solid #f48fb1;margin-top:8px;">
+      <strong>結婚線：自由型</strong><br>
+      <span style="font-size:13px;">恋愛関係に「これ1つ」と縛られないタイプ。複数の深いつながりを持てる／結婚という形式にこだわらない自由人。</span>
+    </div>`);
+  }
+
+  return lines.join('');
+}
+
+function renderPalmSummary(palm) {
+  // 主要4線＋丘の発達から「あなたの手相の総合キャラ」を生成
+  const traits = [];
+
+  // 思考スタイル
+  if (palm.head_direction === 'horizontal') traits.push('現実主義の実務型');
+  else if (palm.head_direction === 'down') traits.push('理想と空想を持つ創造型');
+  else traits.push('直感で即決する瞬発型');
+
+  // 感情の出し方
+  if (palm.heart_line === 'long_curve') traits.push('感情を豊かに表現する');
+  else if (palm.heart_line === 'long_straight') traits.push('感情を内に秘めるクール型');
+  else traits.push('恋愛より自分の道を優先');
+
+  // エネルギー
+  if (palm.life_line === 'long_deep' && palm.venus_mount === 'developed') {
+    traits.push('生命力・愛情エネルギーが豊富');
+  } else if (palm.life_line === 'short') {
+    traits.push('波のあるエネルギー（休む技術が大事）');
+  }
+
+  // 創造性
+  if (palm.moon_mount === 'developed') traits.push('想像力・芸術性が突出');
+
+  // 社会的キャリア
+  if (palm.fate_line === 'strong') traits.push('人生の目的が明確で組織で活躍');
+  else if (palm.fate_line === 'none') traits.push('自由人気質、自分のペースで生きる');
+
+  if (traits.length === 0) return '';
+
+  return `
+    <div class="result-block" style="background:var(--surface-alt);">
+      <div class="label">手相 総合キャラ</div>
+      <div class="detail" style="font-size:14px;">
+        あなたの手は「${traits.join('・')}」タイプ。<br>
+        ${palm.handShape.name}という基本気質の上に、これらの線・丘の特徴が乗っています。
+      </div>
+    </div>
+  `;
+}
+
+// ===========================================================================
+// 統合所感の自動生成（テンプレート方式・APIなし）
+// ===========================================================================
+
+function generateSummary(s, gapLabel) {
+  const { mbti, enneagram, via, birth, palm } = s;
+  const eDesc = ENNEAGRAM_DESC[enneagram.baseType];
+
+  const introTemplates = {
+    'INFJ': 'あなたは内に深い理想を抱え、それを言葉や行動で世界に届けようとする「静かなる革命家」タイプ。',
+    'INTJ': 'あなたは長期的な視野と独自の戦略で物事を動かす「設計者」タイプ。',
+    'INTP': 'あなたは表面のおふざけや諦観の裏に、鋭い分析と独自の哲学を持つ「思索者」タイプ。',
+    'ENTJ': 'あなたは目的に向かって周囲を巻き込んで進む「指揮官」タイプ。',
+    'ENTP': 'あなたは固定観念を壊し新しい議論を起こす「触媒」タイプ。',
+    'INFP': 'あなたは独自の価値観と感受性を内に秘めた「詩人」タイプ。',
+    'ENFJ': 'あなたは人を巻き込み励ます「主人公」タイプ。',
+    'ENFP': 'あなたは情熱と好奇心で周囲を明るく動かす「火種」タイプ。',
+    'ISTJ': 'あなたは規律と責任で組織を支える「管理者」タイプ。',
+    'ISFJ': 'あなたは静かな献身で大切な人を守る「擁護者」タイプ。',
+    'ESTJ': 'あなたは効率と秩序で物事を回す「幹部」タイプ。',
+    'ESFJ': 'あなたは温かい気配りで場を整える「世話役」タイプ。',
+    'ISTP': 'あなたは寡黙な実力で必要なことを片付ける「巨匠」タイプ。',
+    'ISFP': 'あなたは美意識と柔軟さで自分の道を行く「冒険家」タイプ。',
+    'ESTP': 'あなたは現場の勘で行動する「起業家」タイプ。',
+    'ESFP': 'あなたは場を明るくし周囲を巻き込む「エンターテイナー」タイプ。'
+  };
+
+  const intro = introTemplates[mbti.type] || 'あなたは独自のバランスを持つタイプです。';
+
+  // 中層：エニア×強み
+  const middle = `内側では、${eDesc.desire}という欲求と「${eDesc.fear}」への恐れが、あなたを動かしています。あなたの強みは ${via.top3.map(s => s.strength).join('・')} の3つで、これが武器であり、世界との接点です。`;
+
+  // 基層：気質
+  const base = `生まれ持った気質としては、${birth.sichu.element}の性質（${birth.sichu.desc.split('、')[0]}）と、${birth.animal.name}の動き方（${birth.animal.desc.split('、')[0]}）が土台にあります。手の形は${palm.handShape.name}で、${palm.handShape.desc.split('・')[0]}な傾向。`;
+
+  // ギャップ
+  let gapText = '';
+  if (gapLabel.includes('大きな')) {
+    gapText = `そして特徴的なのが「表と裏のギャップ」。外側からは${mbti.type[0] === 'E' ? '社交的・開放的' : '物静か・控えめ'}に見えますが、内側では「${eDesc.desire}」という強い動機が燃えていて、これは周囲には簡単には見せない部分。このギャップを理解してくれる相手と組むと、あなたの真価が発揮されます。`;
+  } else if (gapLabel.includes('中程度')) {
+    gapText = `表と裏には適度なギャップがあり、場面によって違う顔を使い分けられます。これは交渉や調整の場面で強みになります。`;
+  } else {
+    gapText = `あなたは表と裏が一貫していて、行動と内面の動機が一致しているタイプ。誤解されにくく、信頼を積み上げやすい性質です。`;
+  }
+
+  // 締め：MBTI×エニア組み合わせの解釈
+  const ending = `${mbti.fullType}×タイプ${enneagram.baseType}という組み合わせは、${getCombinationHint(mbti.type, enneagram.baseType)}`;
+
+  // 3軸統合解釈（MBTI×動物×日干）
+  const triAxis = getTriAxisHint(mbti.type, birth.animal.name, birth.sichu.nikkan);
+
+  return `${intro} ${middle} ${base} ${gapText} ${ending}<br><br><strong>【3軸統合の所感】</strong> ${triAxis}`;
+}
+
+// MBTI（4グループ）×動物占い（3グループ）×日干（5行）の統合解釈
+function getTriAxisHint(mbtiType, animalName, nikkan) {
+  // MBTIをグループ化
+  const mbtiGroup =
+    ['INTJ','INTP','ENTJ','ENTP'].includes(mbtiType) ? '分析家' :
+    ['INFJ','INFP','ENFJ','ENFP'].includes(mbtiType) ? '外交官' :
+    ['ISTJ','ISFJ','ESTJ','ESFJ'].includes(mbtiType) ? '番人' : '探検家';
+
+  // 動物のグループ
+  const animal = ANIMALS.find(a => a.name === animalName);
+  const animalGroup = animal?.group || 'EARTH';
+
+  // 日干の五行
+  const element =
+    ['甲','乙'].includes(nikkan) ? '木' :
+    ['丙','丁'].includes(nikkan) ? '火' :
+    ['戊','己'].includes(nikkan) ? '土' :
+    ['庚','辛'].includes(nikkan) ? '金' : '水';
+
+  // 統合解釈テンプレート（MBTIグループ × 動物グループ × 五行）
+  const lines = [];
+
+  // MBTI×動物
+  const ma = `${mbtiGroup}×${animalGroup}`;
+  const mbtiAnimalMap = {
+    '分析家×SUN': '頭で考えるタイプだが、表に出る動きは明るく派手。アイデア型リーダーになりやすい。',
+    '分析家×MOON': '内側で深く分析しつつ、人との縁を大事にする。研究＋人間関係の橋渡し役で輝く。',
+    '分析家×EARTH': '徹底した思考と独自のペース。専門職・職人型の分析家。',
+    '外交官×SUN': '理想を持ちつつ周囲を明るく巻き込む。表舞台のリーダー・教育者向き。',
+    '外交官×MOON': '感受性の高さに加えて人間関係を大切にする。深いカウンセラー・コーチ型。',
+    '外交官×EARTH': '内側に強い理想を持ちつつマイペースに進む。一人で深い作品を作るタイプ。',
+    '番人×SUN': '規律と責任を持ちつつ明るく振る舞う。組織のムードメーカー型管理職。',
+    '番人×MOON': '組織人だが人との縁を細やかに育てる。チームを長期で支える調整役。',
+    '番人×EARTH': '実直で安定、組織の柱。最も信頼される静かなる管理者。',
+    '探検家×SUN': '行動派×派手な動き。場の主役・スポーツ・営業の最前線で輝く。',
+    '探検家×MOON': '行動派だが情に厚い。サービス業・パートナー業・実家っぽい仕事に強い。',
+    '探検家×EARTH': '実利優先のクラフトマン。技術・職人・現場で力を発揮。'
+  };
+  lines.push(mbtiAnimalMap[ma] || `${mbtiGroup}気質と${animalGroup}グループの動きが混ざった独自タイプ。`);
+
+  // 五行の補強
+  const elementHint = {
+    '木': '日干が「木」なので、根を張って真っ直ぐ伸びる気質が加わる。一度決めた方向は曲げない芯の強さ。',
+    '火': '日干が「火」なので、情熱と明るさが加わる。場を照らす力があるが、燃え尽きに注意。',
+    '土': '日干が「土」なので、どっしりとした安定感と育てる力が加わる。長期で信頼を積む人。',
+    '金': '日干が「金」なので、鋭さと白黒はっきりした判断が加わる。決断力と義理人情の両立。',
+    '水': '日干が「水」なので、流動性と感受性が加わる。状況に合わせて形を変えつつ、深い洞察を持つ。'
+  };
+  lines.push(elementHint[element]);
+
+  return lines.join(' ');
+}
+
+function getCombinationHint(mbtiType, ennType) {
+  const hints = {
+    // ===== INTJ =====
+    'INTJ_1': '「冷徹な改革者」型。組織の不合理を見抜いて根本から作り直す。千手扉間・冨岡義勇系。',
+    'INTJ_3': '「成功を逆算する戦略家」型。野心と論理を併せ持つ起業家タイプ。マーク・ザッカーバーグ系。',
+    'INTJ_4': '「孤高の芸術家」型。独自の世界観を緻密に構築する。手塚治虫・キューブリック系。',
+    'INTJ_5': '「徹頭徹尾の戦略的思考者」型。組織の参謀・専門職で力を発揮。サスケ・イタチ系。',
+    'INTJ_6': '「慎重なる計画者」型。リスクを潰し続ける完璧な準備の人。',
+    'INTJ_8': '「鋼の革命家」型。トップを目指して対立も恐れない。スティーブ・ジョブズ・シャア系。',
+    'INTJ_9': '「内に革命を秘めた賢者」型。物静かだが内側では世界を再設計している。',
+
+    // ===== INTP =====
+    'INTP_4': '「内省的な詩人型思索者」型。哲学と芸術が混ざる稀有な型。渚カヲル系。',
+    'INTP_5': '「孤独な学者」型。L・アインシュタイン的な思考の深さ。',
+    'INTP_6': '「忠実な研究者」型。組織に居場所を持ちつつ深く掘る。カカシ系。',
+    'INTP_7': '「快楽主義の頭脳」型。坂田銀時の白夜叉以後的なふざけと諦観。',
+    'INTP_9': '「のんびり哲学者」型。型にはまらず深い洞察を持つ。アムロ・テム系。',
+
+    // ===== ENTJ =====
+    'ENTJ_1': '「正義のCEO」型。理想を組織で実現する改革派リーダー。エルヴィン系。',
+    'ENTJ_3': '「成功を目指す戦略家」型。事業を立ち上げ拡大することに向く。柳井正・本田圭佑系。',
+    'ENTJ_5': '「冷徹な戦略の指揮官」型。情を切って数字で判断できる経営者。',
+    'ENTJ_7': '「冒険する起業家」型。複数事業を同時に走らせる多動型リーダー。',
+    'ENTJ_8': '「典型的なリーダー」型。組織を動かし結果を出す経営者タイプ。ジョブズ・松下幸之助系。',
+
+    // ===== ENTP =====
+    'ENTP_3': '「演出家型起業家」型。注目を集めながら新しい価値を作る。',
+    'ENTP_5': '「思考実験の達人」型。議論を深掘りして新しい仮説を出す。ダ・ヴィンチ系。',
+    'ENTP_7': '「永遠の議論家・冒険家」型。坂本辰馬・自来也系。新しい刺激を求め続ける。',
+    'ENTP_8': '「破壊と再構築の戦闘者」型。ハンジ・神威系。常識を壊して新しい秩序を作る。',
+
+    // ===== INFJ =====（岡田さん本人タイプを厚く）
+    'INFJ_1': '「揺るぎない理想を持つ改革者」型。マザー・テレサ・ガンディー的キャリアと親和性。',
+    'INFJ_2': '「無償の奉仕者」型。人の幸せを設計する人事・コーチング・福祉系で輝く。',
+    'INFJ_3': '「成功する理想主義者」型。理想を仕事として形にし、評価まで取りに行く稀有な型。羽生結弦的バランス。',
+    'INFJ_4': '「創造性と理想主義の極み」型。芸術・思想・人を導く仕事で輝きやすい。坂本龍一・米津玄師タイプ。',
+    'INFJ_5': '「思索する預言者」型。研究・執筆・洞察を活かす仕事に向く。プラトン系。',
+    'INFJ_6': '「忠実な提唱者」型。信頼できる組織で長期的にビジョンを実現する。ミナト系。',
+    'INFJ_7': '「ふざけて世界を救う」型。重い使命を抱えながら表は軽やかに振る舞う。坂田銀時(白夜叉時代)的二面性。',
+    'INFJ_8': '「優しさを武器化するリーダー」型。穏やかに見えて譲らない芯がある革命家。',
+    'INFJ_9': '「静かな調停者」型。争いを避けつつ深いビジョンで人を動かす。アシタカ系。',
+
+    // ===== INFP =====
+    'INFP_4': '「純度の高い詩人」型。価値観に妥協なく作品を生み出す。米津玄師・ジョン・レノン系。',
+    'INFP_6': '「不安を抱える理想家」型。慎重さと感受性を併せ持つ。シンジ系。',
+    'INFP_9': '「平和を愛する夢想家」型。穏やかに世界を観察し記録する。',
+
+    // ===== ENFJ =====
+    'ENFJ_2': '「カリスマの世話役」型。人を導きながら支えることが両立する稀有な型。',
+    'ENFJ_3': '「人気者のリーダー」型。オバマ・羽生結弦系。期待に応えて結果を出す。',
+    'ENFJ_4': '「カリスマアーティスト」型。マイケル・ジャクソン系。表現で人を動かす。',
+    'ENFJ_6': '「忠実なまとめ役」型。チームに尽くす副キャプテン系。',
+
+    // ===== ENFP =====
+    'ENFP_2': '「人を巻き込む応援団」型。エネルギーで仲間を引き上げる。',
+    'ENFP_4': '「個性を爆発させる表現者」型。独自の感性を全力で外に出す。',
+    'ENFP_7': '「永遠の冒険者」型。ナルト・ルフィ的な情熱の塊。',
+    'ENFP_8': '「壁を壊して仲間を守る」型。エレン(前期)系。情熱と力で世界を動かす。',
+
+    // ===== ISTJ =====
+    'ISTJ_1': '「規律の改革者」型。土方・冨岡系。決まりを守りつつ組織を整える。',
+    'ISTJ_5': '「研究者型管理者」型。データと前例で意思決定する専門職。バフェット系。',
+    'ISTJ_6': '「組織の柱」型。忠実で安定、最強の中間管理職。メルケル系。',
+    'ISTJ_8': '「孤独な番人」型。誰にも頼らず責任を果たすミカサ系。',
+
+    // ===== ISFJ =====
+    'ISFJ_2': '「献身の擁護者」型。マザー・テレサ的な静かな奉仕。',
+    'ISFJ_6': '「忠実な支え手」型。組織に深く根を張る縁の下の力持ち。新八系。',
+    'ISFJ_9': '「優しい守護者」型。穏やかに人を守り続ける。',
+
+    // ===== ESTJ =====
+    'ESTJ_1': '「規律の幹部」型。組織のルールを守らせる現場リーダー。',
+    'ESTJ_3': '「結果を出す経営者」型。事業を効率的に拡大する。田中角栄系。',
+    'ESTJ_6': '「組織愛の管理職」型。忠誠と効率で部隊を率いる。澤村大地系。',
+    'ESTJ_8': '「支配的なボス」型。声でかく結果出すタイプ。ベジータ系。',
+
+    // ===== ESFJ =====
+    'ESFJ_2': '「世話焼きの母性」型。誰にでも気を配り組織の潤滑油になる。',
+    'ESFJ_3': '「人気の社交家」型。明るく結果も出す。テイラー・スウィフト系。',
+    'ESFJ_6': '「みんなの調停者」型。忠実で世話好き。お登勢・サクラ系。',
+
+    // ===== ISTP =====
+    'ISTP_5': '「寡黙な職人」型。技術・実務で深いものを作る。ゾロ・カカシ系。',
+    'ISTP_7': '「クールな冒険家」型。淡々と新しいことに挑む。',
+    'ISTP_8': '「黙って戦う一匹狼」型。リヴァイ・空条承太郎系。',
+    'ISTP_9': '「マイペースな巨匠」型。静かに自分の世界で完成度を上げる。',
+
+    // ===== ISFP =====
+    'ISFP_4': '「美の探求者」型。独自の美意識で表現する。ボウイ系。',
+    'ISFP_6': '「優しい守り手」型。仲間想いで穏やか。',
+    'ISFP_9': '「穏やかな芸術家」型。自分のペースで美しいものを生み出す。',
+
+    // ===== ESTP =====
+    'ESTP_3': '「成功する現場主義者」型。瞬発力で結果を出す営業エース。',
+    'ESTP_7': '「冒険する起業家」型。アントニオ猪木的な熱量。',
+    'ESTP_8': '「現場の支配者」型。神威・宇髄天元系。実力でねじ伏せる。',
+
+    // ===== ESFP =====
+    'ESFP_2': '「愛されるサービス精神」型。明るく人を喜ばせる。チョッパー系。',
+    'ESFP_3': '「主役級エンタメ人」型。エルヴィス・ジョングク系。スターの素質。',
+    'ESFP_7': '「最強のお祭り男/女」型。神楽・ルフィ・きゃりー系。場を支配する明るさ。',
+    'ESFP_8': '「直情型ファイター」型。感情と力で押し切る。'
+  };
+
+  // 完全一致がなければMBTI単独の補足
+  if (hints[`${mbtiType}_${ennType}`]) return hints[`${mbtiType}_${ennType}`];
+
+  const mbtiFallback = {
+    'INTJ': '戦略性と独自性を活かす設計者ポジションに向きます。',
+    'INTP': '分析と思索を深める専門職に向きます。',
+    'ENTJ': '組織を率いて結果を出す指揮官ポジションに向きます。',
+    'ENTP': '議論と発想で新しい価値を作る役割に向きます。',
+    'INFJ': '人と社会に深く寄与する仕事に向きます。',
+    'INFP': '価値観と感性を表現する仕事に向きます。',
+    'ENFJ': '人を導き巻き込む役割に向きます。',
+    'ENFP': '情熱で人を動かす役割に向きます。',
+    'ISTJ': '規律と責任で組織を支える役割に向きます。',
+    'ISFJ': '静かな献身で大切な人を守る役割に向きます。',
+    'ESTJ': '効率と秩序で組織を回す役割に向きます。',
+    'ESFJ': '気配りで場を整える役割に向きます。',
+    'ISTP': '寡黙な実力で技術を磨く役割に向きます。',
+    'ISFP': '美意識と柔軟さで自分の道を行く役割に向きます。',
+    'ESTP': '現場の勘で行動する役割に向きます。',
+    'ESFP': '場を明るくし周囲を巻き込む役割に向きます。'
+  };
+  return `この組み合わせは比較的レアパターン。「${mbtiType}」の行動と「タイプ${ennType}」の動機が混ざることで独自のキャリア・対人スタイルが生まれます。一般傾向としては：${mbtiFallback[mbtiType] || ''}`;
+}
+
+// 初期化
+init();
+</script>
+</body>
+</html>
