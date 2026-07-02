@@ -3,585 +3,666 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ちゃんまん | フリーランスポートフォリオ</title>
-<meta name="description" content="SNS運用代行・リール編集・実食レビュー撮影・トレカ相場リサーチ。ちゃんまんのフリーランスポートフォリオ。">
+<title>yuri | フリーランスポートフォリオ</title>
+<meta name="description" content="SNS運用代行・リール編集・実食レビュー撮影・トレカ相場リサーチ。yuri のフリーランスポートフォリオ。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700&family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0d0f1a;
-  --surface: #161929;
-  --surface-alt: #1a1c2e;
-  --border: rgba(236,72,153,0.2);
-  --accent: #f472b6;
-  --accent2: #c084fc;
-  --gold: #fbbf24;
-  --green: #34d399;
-  --text: #f1f5f9;
-  --text2: #94a3b8;
-  --text3: #64748b;
-  --r: 14px;
-  --r-sm: 8px;
+  --bg: #e7d9c7;
+  --bg-soft: #efe5d7;
+  --cream: #f5efe4;
+  --cream-2: #faf6ee;
+  --sage: #9fb088;
+  --sage-soft: #c3cfb1;
+  --sage-pill: #b7c5a2;
+  --sage-deep: #6d7f57;
+  --rose: #d9b6ac;
+  --rose-soft: #e8d0c9;
+  --text: #574a3c;
+  --text-2: #8a7c6b;
+  --text-3: #a89a87;
+  --line: rgba(87,74,60,0.12);
+  --mincho: 'Shippori Mincho B1', serif;
+  --maru: 'Zen Maru Gothic', sans-serif;
+  --klee: 'Klee One', cursive;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: var(--maru);
+  font-weight: 400;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.7;
-  min-height: 100vh;
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 620px;
+  margin: 0 auto;
+  background: var(--bg);
+  overflow: hidden;
 }
 
 /* ---- HERO ---- */
 .hero {
-  padding: 80px 20px 60px;
-  text-align: center;
   position: relative;
+  padding: 54px 28px 48px;
+  text-align: center;
   overflow: hidden;
+  background: var(--bg);
 }
-.hero::before {
-  content: '';
+.blob {
   position: absolute;
-  top: -80px; left: 50%;
-  transform: translateX(-50%);
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(244,114,182,0.1) 0%, transparent 70%);
-  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(2px);
+  z-index: 0;
 }
-.hero-tag {
-  display: inline-block;
-  background: rgba(244,114,182,0.12);
-  border: 1px solid rgba(244,114,182,0.3);
-  color: var(--accent);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  padding: 5px 14px;
-  border-radius: 20px;
-  margin-bottom: 20px;
+.blob.sage { width: 130px; height: 130px; background: var(--sage-soft); top: 30px; right: -28px; opacity: .55; }
+.blob.rose { width: 160px; height: 160px; background: var(--rose-soft); bottom: 10px; left: -50px; opacity: .5; }
+.blob.sm { width: 70px; height: 70px; background: var(--rose); top: 150px; left: 24px; opacity: .35; }
+.hero-inner { position: relative; z-index: 1; }
+
+.hero-handle {
+  font-family: var(--mincho);
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--text-2);
+  margin-bottom: 26px;
 }
+.healthy-badge {
+  position: absolute;
+  top: 4px; right: 14px;
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--sage);
+  color: #fff;
+  font-family: var(--klee);
+  font-size: 13px;
+  display: grid;
+  place-items: center;
+  line-height: 1.2;
+  z-index: 2;
+  transform: rotate(-8deg);
+  box-shadow: 0 6px 18px rgba(109,127,87,0.25);
+}
+.hero-lead {
+  font-family: var(--mincho);
+  font-size: 16px;
+  letter-spacing: 0.16em;
+  color: var(--text-2);
+  margin-bottom: 8px;
+}
+.hero-title {
+  font-family: var(--mincho);
+  font-size: clamp(2.4rem, 9vw, 3.4rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+.hero-title .heart { color: var(--rose); font-size: 0.8em; }
 .hero-name {
-  font-size: clamp(2.4rem, 8vw, 4rem);
-  font-weight: 900;
-  letter-spacing: 0.04em;
-  background: linear-gradient(135deg, #f9a8d4 0%, #c084fc 60%, #f472b6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 12px;
-}
-.hero-sub {
+  font-family: var(--klee);
   font-size: 15px;
-  color: var(--text2);
-  max-width: 480px;
-  margin: 0 auto 28px;
-  line-height: 1.8;
+  letter-spacing: 0.2em;
+  color: var(--sage-deep);
+  margin-bottom: 28px;
 }
-.hero-stats {
+.pills {
   display: flex;
   justify-content: center;
-  gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 32px;
-}
-.hero-stat {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 20px;
-  padding: 6px 16px;
-  font-size: 13px;
-  font-weight: 600;
-}
-.hero-stat strong {
-  color: var(--accent);
-  margin-right: 4px;
-}
-.hero-cta {
-  display: inline-flex;
-  align-items: center;
   gap: 8px;
-  background: linear-gradient(135deg, #f472b6, #c084fc);
-  color: #fff;
-  font-weight: 800;
-  font-size: 15px;
-  padding: 14px 32px;
-  border-radius: 40px;
-  text-decoration: none;
-  letter-spacing: 0.04em;
-  transition: opacity 0.2s, transform 0.2s;
-  box-shadow: 0 4px 24px rgba(244,114,182,0.3);
+  margin-bottom: 22px;
 }
-.hero-cta:hover { opacity: 0.88; transform: translateY(-2px); }
+.pill {
+  background: var(--sage-pill);
+  color: #4f5e3c;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 6px 16px;
+  border-radius: 20px;
+}
+.tagline-pill {
+  display: inline-block;
+  background: var(--cream-2);
+  color: var(--text);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  padding: 10px 22px;
+  border-radius: 24px;
+  box-shadow: 0 3px 12px rgba(87,74,60,0.06);
+}
 
 /* ---- SECTION ---- */
-.section {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 0 20px 60px;
+.section { padding: 44px 28px 0; position: relative; }
+.sec-label {
+  text-align: center;
+  margin-bottom: 26px;
 }
-.section-title {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: var(--text3);
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.sec-label .en {
+  font-family: var(--klee);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: var(--sage-deep);
+  display: block;
+  margin-bottom: 2px;
 }
-.section-title::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
+.sec-label .jp {
+  font-family: var(--mincho);
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--text);
 }
 
 /* ---- SERVICE CARDS ---- */
-.services {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 16px;
-  margin-bottom: 48px;
-}
-.service-card {
-  background: var(--surface);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: var(--r);
-  padding: 24px;
-  transition: border-color 0.2s, transform 0.2s;
+.cards { display: flex; flex-direction: column; gap: 16px; }
+.card {
+  background: var(--cream);
+  border-radius: 22px;
+  padding: 24px 24px 22px;
   position: relative;
-  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(87,74,60,0.05);
 }
-.service-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  border-radius: var(--r) var(--r) 0 0;
-}
-.service-card.pink::before { background: linear-gradient(90deg, #f472b6, #e879f9); }
-.service-card.purple::before { background: linear-gradient(90deg, #c084fc, #818cf8); }
-.service-card.orange::before { background: linear-gradient(90deg, #fb923c, #fbbf24); }
-.service-card.green::before { background: linear-gradient(90deg, #34d399, #22d3ee); }
-.service-card:hover { border-color: rgba(244,114,182,0.25); transform: translateY(-2px); }
-
-.service-icon {
-  font-size: 28px;
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 12px;
-  display: block;
 }
-.service-badge {
-  display: inline-block;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  padding: 3px 10px;
-  border-radius: 4px;
-  margin-bottom: 10px;
+.card-ico {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: var(--bg-soft);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  flex-shrink: 0;
 }
-.pink .service-badge { background: rgba(244,114,182,0.15); color: #f472b6; }
-.purple .service-badge { background: rgba(192,132,252,0.15); color: #c084fc; }
-.orange .service-badge { background: rgba(251,146,60,0.15); color: #fb923c; }
-.green .service-badge { background: rgba(52,211,153,0.15); color: #34d399; }
-
-.service-title {
-  font-size: 17px;
-  font-weight: 800;
-  margin-bottom: 8px;
-  line-height: 1.4;
+.card-en {
+  font-family: var(--klee);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--sage-deep);
 }
-.service-desc {
+.card-title {
+  font-family: var(--mincho);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+.card-desc {
   font-size: 13px;
-  color: var(--text2);
-  line-height: 1.75;
+  color: var(--text-2);
+  line-height: 1.95;
   margin-bottom: 14px;
 }
-.service-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.service-tag {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: var(--r-sm);
-  padding: 3px 10px;
-  font-size: 11px;
-  color: var(--text2);
-  font-weight: 500;
+.card-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+.tag {
+  background: var(--bg-soft);
+  color: var(--text-2);
+  font-size: 11.5px;
+  padding: 4px 12px;
+  border-radius: 14px;
 }
 
 /* ---- STRENGTHS ---- */
-.strengths {
-  background: var(--surface);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: var(--r);
-  padding: 28px;
-  margin-bottom: 48px;
-}
-.strengths-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  margin-top: 20px;
-}
-.strength-item {
+.strengths { display: flex; flex-direction: column; gap: 12px; }
+.str {
+  background: var(--cream);
+  border-radius: 18px;
+  padding: 18px 22px;
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 14px;
 }
-.strength-dot {
-  width: 8px; height: 8px;
+.str-dot {
+  font-family: var(--klee);
+  color: #fff;
+  background: var(--sage);
+  width: 30px; height: 30px;
   border-radius: 50%;
-  background: var(--accent);
-  margin-top: 7px;
-  flex-shrink: 0;
-}
-.strength-label {
+  display: grid;
+  place-items: center;
   font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 2px;
+  flex-shrink: 0;
+  margin-top: 2px;
 }
-.strength-text {
-  font-size: 12px;
-  color: var(--text2);
-  line-height: 1.6;
-}
+.str-label { font-family: var(--mincho); font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+.str-text { font-size: 12.5px; color: var(--text-2); line-height: 1.85; }
 
 /* ---- SAMPLES ---- */
-.samples-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 48px;
-}
-.sample-card {
-  background: var(--surface);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: var(--r-sm);
+.samples { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.samp {
   aspect-ratio: 1;
+  border-radius: 16px;
+  background: var(--cream);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  cursor: default;
-  transition: border-color 0.2s;
-}
-.sample-card:hover { border-color: rgba(244,114,182,0.3); }
-.sample-emoji { font-size: 32px; }
-.sample-label {
-  font-size: 11px;
-  color: var(--text3);
   text-align: center;
-  font-weight: 600;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
+.samp:nth-child(3n+1) { background: #e9ddd0; }
+.samp:nth-child(3n+2) { background: #dfe4d4; }
+.samp:nth-child(3n)   { background: #ecdcd6; }
+.samp-emoji { font-size: 26px; }
+.samp-label { font-size: 11px; color: var(--text-2); line-height: 1.5; }
 
-/* ---- PROCESS ---- */
-.process {
-  display: flex;
-  gap: 0;
-  margin-bottom: 48px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-}
-.process-step {
-  flex: 1;
-  min-width: 120px;
-  text-align: center;
-  position: relative;
-}
-.process-step:not(:last-child)::after {
-  content: '→';
-  position: absolute;
-  right: -8px;
-  top: 16px;
-  color: var(--text3);
-  font-size: 14px;
-}
-.process-num {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  background: rgba(244,114,182,0.15);
-  border: 1px solid rgba(244,114,182,0.3);
-  color: var(--accent);
-  font-size: 13px;
-  font-weight: 800;
+/* ---- FLOW ---- */
+.flow { display: flex; flex-direction: column; gap: 10px; }
+.frow {
+  background: var(--cream);
+  border-radius: 16px;
+  padding: 14px 20px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin: 0 auto 8px;
+  gap: 14px;
 }
-.process-text {
-  font-size: 12px;
-  color: var(--text2);
-  line-height: 1.5;
+.fnum {
+  font-family: var(--klee);
+  color: #fff;
+  background: var(--rose);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  flex-shrink: 0;
 }
+.ftext { font-size: 13px; }
+.ftext b { font-family: var(--mincho); font-weight: 600; }
 
 /* ---- CTA ---- */
-.cta-block {
-  background: linear-gradient(135deg, rgba(244,114,182,0.1) 0%, rgba(192,132,252,0.08) 100%);
-  border: 1px solid rgba(244,114,182,0.25);
-  border-radius: var(--r);
+.cta {
+  margin: 48px 28px 0;
+  background: var(--sage);
+  border-radius: 26px;
   padding: 40px 28px;
   text-align: center;
-}
-.cta-title {
-  font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 10px;
-}
-.cta-sub {
-  font-size: 14px;
-  color: var(--text2);
-  margin-bottom: 24px;
-  line-height: 1.7;
-}
-.cta-btns {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.btn-primary {
-  background: linear-gradient(135deg, #f472b6, #c084fc);
   color: #fff;
-  font-weight: 800;
-  font-size: 14px;
-  padding: 13px 28px;
-  border-radius: 40px;
-  text-decoration: none;
-  transition: opacity 0.2s, transform 0.2s;
-  box-shadow: 0 4px 20px rgba(244,114,182,0.25);
+  position: relative;
+  overflow: hidden;
 }
-.btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
-.btn-ghost {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: var(--text);
-  font-weight: 600;
-  font-size: 14px;
-  padding: 13px 28px;
-  border-radius: 40px;
-  text-decoration: none;
-  transition: border-color 0.2s;
+.cta::before {
+  content: '';
+  position: absolute;
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  top: -40px; right: -30px;
 }
-.btn-ghost:hover { border-color: rgba(244,114,182,0.4); }
+.cta-en { font-family: var(--klee); font-size: 13px; letter-spacing: 0.2em; opacity: .9; display: block; margin-bottom: 8px; position: relative; }
+.cta-title { font-family: var(--mincho); font-size: 20px; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 10px; position: relative; }
+.cta-sub { font-size: 13px; opacity: .95; margin-bottom: 26px; line-height: 1.9; position: relative; }
+.cta-btns { display: flex; flex-direction: column; gap: 10px; align-items: center; position: relative; }
+.cta-btn {
+  display: inline-block;
+  width: 100%;
+  max-width: 280px;
+  background: var(--cream-2);
+  color: var(--sage-deep);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  padding: 14px 0;
+  border-radius: 26px;
+  text-decoration: none;
+}
+.cta-btn.line {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.6);
+  font-weight: 500;
+}
+.cta-btn:hover { opacity: .92; }
 
-/* ---- FOOTER ---- */
 footer {
   text-align: center;
-  padding: 32px 20px;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  font-size: 12px;
-  color: var(--text3);
+  padding: 32px 20px 44px;
+  font-family: var(--mincho);
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+  color: var(--text-3);
 }
+footer .heart { color: var(--rose); }
 
-@media (max-width: 600px) {
-  .services { grid-template-columns: 1fr; }
-  .samples-grid { grid-template-columns: repeat(2, 1fr); }
-  .process { gap: 0; }
-  .process-step { min-width: 90px; }
+/* ---- FEATURE (診断コンテンツ導線) ---- */
+.feature {
+  display: block;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--cream-2);
+  border: 1px solid rgba(159,176,136,0.4);
+  border-radius: 24px;
+  padding: 30px 26px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.feature::before {
+  content: '';
+  position: absolute;
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  background: var(--sage-soft);
+  opacity: .35;
+  top: -40px; left: -30px;
+}
+.feature::after {
+  content: '';
+  position: absolute;
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  background: var(--rose-soft);
+  opacity: .4;
+  bottom: -36px; right: -24px;
+}
+.feature-badge {
+  position: relative;
+  display: inline-block;
+  font-family: var(--klee);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--sage-deep);
+  background: #fff;
+  padding: 4px 14px;
+  border-radius: 16px;
+  margin-bottom: 14px;
+}
+.feature-emoji { position: relative; font-size: 40px; display: block; margin-bottom: 6px; }
+.feature-title {
+  position: relative;
+  font-family: var(--mincho);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+.feature-desc {
+  position: relative;
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.9;
+  max-width: 420px;
+  margin: 0 auto 20px;
+}
+.feature-btn {
+  position: relative;
+  display: inline-block;
+  background: var(--sage);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  padding: 12px 32px;
+  border-radius: 24px;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.feature:hover .feature-btn { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(109,127,87,0.3); }
+
+/* ============ MOTION ============ */
+html { scroll-behavior: smooth; }
+.card, .samp, .pill, .cta-btn, .str, .frow {
+  transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease;
+}
+.card:hover { transform: translateY(-5px); box-shadow: 0 14px 30px rgba(87,74,60,0.13); }
+.samp:hover { transform: translateY(-4px) scale(1.03); }
+.pill:hover { transform: translateY(-2px); }
+.str:hover, .frow:hover { transform: translateX(5px); }
+.cta-btn:hover { transform: translateY(-2px); }
+
+@keyframes fadeUp { to { opacity: 1; transform: none; } }
+@keyframes floatA { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+@keyframes floatB { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(14px) scale(1.06); } }
+@keyframes bob { 0%,100% { transform: rotate(-8deg) translateY(0); } 50% { transform: rotate(-3deg) translateY(-6px); } }
+@keyframes beat { 0%,100% { transform: scale(1); } 14% { transform: scale(1.28); } 28% { transform: scale(1); } 42% { transform: scale(1.15); } 56% { transform: scale(1); } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .blob.sage { animation: floatA 9s ease-in-out infinite; }
+  .blob.rose { animation: floatB 12s ease-in-out infinite; }
+  .blob.sm   { animation: floatA 7s ease-in-out infinite; }
+  .healthy-badge { animation: bob 4.5s ease-in-out infinite; }
+  .hero-title .heart { display: inline-block; animation: beat 2.2s ease-in-out infinite; }
+
+  .hero-inner > * { opacity: 0; transform: translateY(20px); animation: fadeUp .85s cubic-bezier(.16,1,.3,1) forwards; }
+  .hero-handle { animation-delay: .05s; }
+  .hero-lead   { animation-delay: .15s; }
+  .hero-title  { animation-delay: .25s; }
+  .hero-name   { animation-delay: .42s; }
+  .pills       { animation-delay: .54s; }
+  .tagline-pill{ animation-delay: .66s; }
+
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .75s cubic-bezier(.16,1,.3,1), transform .75s cubic-bezier(.16,1,.3,1); }
+  .reveal.is-visible { opacity: 1; transform: none; }
 }
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-tag">FREELANCE PORTFOLIO</div>
-  <h1 class="hero-name">ちゃんまん</h1>
-  <p class="hero-sub">
-    SNS運用代行・リール動画編集・実食レビュー撮影・トレカ相場リサーチ。<br>
-    実績ベースで丁寧に、スピード感をもって対応します。
-  </p>
-  <div class="hero-stats">
-    <span class="hero-stat"><strong>1,200+</strong>Instagramフォロワー</span>
-    <span class="hero-stat"><strong>4</strong>サービス提供中</span>
-    <span class="hero-stat"><strong>迅速対応</strong>基本24h以内</span>
-  </div>
-  <a href="#contact" class="hero-cta">クラウドワークスで依頼する →</a>
-</div>
-
-<!-- SERVICES -->
-<section class="section">
-  <div class="section-title">SERVICES — 提供サービス</div>
-  <div class="services">
-
-    <div class="service-card pink">
-      <span class="service-icon">📱</span>
-      <div class="service-badge">SNS MANAGEMENT</div>
-      <div class="service-title">SNS運用代行</div>
-      <div class="service-desc">
-        Instagram・X・TikTokの投稿作成・スケジューリング・コメント管理をまとめてサポート。ターゲットに刺さるキャプション文・ハッシュタグ選定も対応。
+  <!-- HERO -->
+  <header class="hero">
+    <div class="healthy-badge">creator<br>♡</div>
+    <span class="blob sage"></span>
+    <span class="blob rose"></span>
+    <span class="blob sm"></span>
+    <div class="hero-inner">
+      <div class="hero-handle">@yuri.18yurifitness</div>
+      <div class="hero-lead">SNS・動画・AI・食レポ</div>
+      <h1 class="hero-title">おしごと、<br>承ります <span class="heart">♡</span></h1>
+      <div class="hero-name">yuri ・ ゆり</div>
+      <div class="pills">
+        <span class="pill">SNS運用</span>
+        <span class="pill">動画編集</span>
+        <span class="pill">AI動画</span>
+        <span class="pill">食レポ</span>
+        <span class="pill">トレカ</span>
       </div>
-      <div class="service-tags">
-        <span class="service-tag">Instagram</span>
-        <span class="service-tag">X（旧Twitter）</span>
-        <span class="service-tag">TikTok</span>
-        <span class="service-tag">キャプション作成</span>
-        <span class="service-tag">ハッシュタグ選定</span>
-      </div>
+      <span class="tagline-pill">実績ベースで丁寧に・基本24h以内 ♡</span>
     </div>
+  </header>
 
-    <div class="service-card purple">
-      <span class="service-icon">🎬</span>
-      <div class="service-badge">VIDEO EDITING</div>
-      <div class="service-title">リール・ショート動画編集</div>
-      <div class="service-desc">
-        InstagramリールやYouTube Shortsの動画編集・テロップ入れ・BGM調整。縦型フォーマット対応。伝わる構成で完成度を高めます。
-      </div>
-      <div class="service-tags">
-        <span class="service-tag">Reels</span>
-        <span class="service-tag">Shorts</span>
-        <span class="service-tag">TikTok</span>
-        <span class="service-tag">テロップ</span>
-        <span class="service-tag">BGM</span>
-      </div>
+  <!-- SERVICES -->
+  <section class="section">
+    <div class="sec-label">
+      <span class="en">Services</span>
+      <span class="jp">提供サービス</span>
     </div>
+    <div class="cards">
 
-    <div class="service-card orange">
-      <span class="service-icon">🍱</span>
-      <div class="service-badge">FOOD REVIEW</div>
-      <div class="service-title">実食レビュー・食レポ撮影</div>
-      <div class="service-desc">
-        コンビニ・スーパー・飲食店の商品を実際に食べてレポート。写真・動画・テキストレビューを制作。高タンパク・ダイエット食品が得意分野。
+      <div class="card">
+        <div class="card-top">
+          <div class="card-ico">📱</div>
+          <div>
+            <div class="card-en">SNS Management</div>
+            <div class="card-title">SNS運用代行</div>
+          </div>
+        </div>
+        <div class="card-desc">Instagram・X・TikTokの投稿作成・スケジューリング・コメント管理。ターゲットに届くキャプション・ハッシュタグ設計まで対応します。</div>
+        <div class="card-tags">
+          <span class="tag">Instagram</span><span class="tag">X</span><span class="tag">TikTok</span><span class="tag">キャプション</span><span class="tag">ハッシュタグ設計</span>
+        </div>
       </div>
-      <div class="service-tags">
-        <span class="service-tag">実食レポ</span>
-        <span class="service-tag">商品レビュー</span>
-        <span class="service-tag">高タンパク食品</span>
-        <span class="service-tag">コンビニ飯</span>
-        <span class="service-tag">写真＋動画</span>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-ico">🎬</div>
+          <div>
+            <div class="card-en">Video Editing</div>
+            <div class="card-title">リール・ショート動画編集</div>
+          </div>
+        </div>
+        <div class="card-desc">Instagramリール／YouTube Shortsの編集・テロップ・BGM調整。縦型に最適化し、伝わる構成で仕上げます。</div>
+        <div class="card-tags">
+          <span class="tag">Reels</span><span class="tag">Shorts</span><span class="tag">TikTok</span><span class="tag">テロップ</span><span class="tag">BGM</span>
+        </div>
       </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-ico">✨</div>
+          <div>
+            <div class="card-en">AI Video / Image</div>
+            <div class="card-title">AI動画・AI画像活用</div>
+          </div>
+        </div>
+        <div class="card-desc">CapCut・生成AIツールを活用した縦型ショート／サムネ／素材制作に対応。実写編集とAI生成を組み合わせ、スピーディに仕上げます。</div>
+        <div class="card-tags">
+          <span class="tag">CapCut</span><span class="tag">AI動画</span><span class="tag">AI画像</span><span class="tag">自動字幕</span><span class="tag">縦型ショート</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-ico">🍱</div>
+          <div>
+            <div class="card-en">Food Review</div>
+            <div class="card-title">実食レビュー・食レポ撮影</div>
+          </div>
+        </div>
+        <div class="card-desc">コンビニ・スーパー・飲食店の商品を実際に試してレポート。写真・動画・テキスト制作。高タンパク／ダイエット食が得意分野です。</div>
+        <div class="card-tags">
+          <span class="tag">実食レポ</span><span class="tag">商品レビュー</span><span class="tag">高タンパク食品</span><span class="tag">写真＋動画</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="card-ico">🃏</div>
+          <div>
+            <div class="card-en">Card Research</div>
+            <div class="card-title">ポケカ・トレカ相場リサーチ</div>
+          </div>
+        </div>
+        <div class="card-desc">ポケモンカード・ワンピースカード等の最新相場を調査し、仕入れリスト・売れ筋ランキングを作成。購入タイミングのご相談にも対応します。</div>
+        <div class="card-tags">
+          <span class="tag">ポケモンカード</span><span class="tag">ワンピースカード</span><span class="tag">相場調査</span><span class="tag">仕入れリスト</span>
+        </div>
+      </div>
+
     </div>
-
-    <div class="service-card green">
-      <span class="service-icon">🃏</span>
-      <div class="service-badge">CARD RESEARCH</div>
-      <div class="service-title">ポケカ・トレカ相場リサーチ</div>
-      <div class="service-desc">
-        ポケモンカード・ワンピースカード等の最新相場を調査し、仕入れリスト・売れ筋ランキングを作成。購入タイミングのアドバイスも対応可能。
-      </div>
-      <div class="service-tags">
-        <span class="service-tag">ポケモンカード</span>
-        <span class="service-tag">ワンピースカード</span>
-        <span class="service-tag">相場調査</span>
-        <span class="service-tag">仕入れリスト</span>
-        <span class="service-tag">転売リサーチ</span>
-      </div>
-    </div>
-
-  </div>
+  </section>
 
   <!-- STRENGTHS -->
-  <div class="section-title">STRENGTHS — 強み</div>
-  <div class="strengths">
-    <div class="strengths-grid">
-      <div class="strength-item">
-        <div class="strength-dot"></div>
-        <div>
-          <div class="strength-label">実際に使う・食べる</div>
-          <div class="strength-text">リサーチだけでなく自分で試してからレポート。リアルな感想をコンテンツに反映。</div>
-        </div>
-      </div>
-      <div class="strength-item">
-        <div class="strength-dot" style="background:var(--accent2)"></div>
-        <div>
-          <div class="strength-label">カード相場に精通</div>
-          <div class="strength-text">店舗運営経験＋日常的な相場チェックで、最新価格をスピーディに調査。</div>
-        </div>
-      </div>
-      <div class="strength-item">
-        <div class="strength-dot" style="background:var(--gold)"></div>
-        <div>
-          <div class="strength-label">SNS実績あり</div>
-          <div class="strength-text">Instagram 1,200+フォロワーで実際に運用中。コンテンツ感覚が身についている。</div>
-        </div>
-      </div>
-      <div class="strength-item">
-        <div class="strength-dot" style="background:var(--green)"></div>
-        <div>
-          <div class="strength-label">丁寧なやりとり</div>
-          <div class="strength-text">質問・修正依頼には迅速に対応。納品まで細かくコミュニケーション。</div>
-        </div>
-      </div>
+  <section class="section">
+    <div class="sec-label">
+      <span class="en">Strengths</span>
+      <span class="jp">わたしの強み</span>
     </div>
-  </div>
+    <div class="strengths">
+      <div class="str"><div class="str-dot">1</div><div><div class="str-label">実際に使う・食べてレポート</div><div class="str-text">リサーチだけでなく自分で試してから。リアルな感想をコンテンツに反映します。</div></div></div>
+      <div class="str"><div class="str-dot">2</div><div><div class="str-label">カード相場に精通</div><div class="str-text">店舗運営経験と日常的な相場チェックで、最新価格をスピーディに調査します。</div></div></div>
+      <div class="str"><div class="str-dot">3</div><div><div class="str-label">SNS実績あり</div><div class="str-text">Instagram 1,200+フォロワー・TikTok 550+フォロワーを実際に運用中。TikTokは1投稿9万再生を達成した実績もあります。</div></div></div>
+      <div class="str"><div class="str-dot">4</div><div><div class="str-label">丁寧なやりとり</div><div class="str-text">質問・修正には迅速に対応。納品まで細やかにコミュニケーションします。</div></div></div>
+    </div>
+  </section>
 
-  <!-- WORK SAMPLES -->
-  <div class="section-title">SAMPLES — 制作サンプル</div>
-  <div class="samples-grid">
-    <div class="sample-card">
-      <div class="sample-emoji">🍗</div>
-      <div class="sample-label">実食レビュー<br>コンテンツ</div>
+  <!-- SAMPLES -->
+  <section class="section">
+    <div class="sec-label">
+      <span class="en">Works</span>
+      <span class="jp">制作サンプル</span>
     </div>
-    <div class="sample-card">
-      <div class="sample-emoji">🎬</div>
-      <div class="sample-label">リール動画<br>編集サンプル</div>
+    <div class="samples">
+      <a class="samp" href="https://www.instagram.com/reel/DZj-4mOTeVs/" target="_blank" rel="noopener"><span class="samp-emoji">🍱</span><span class="samp-label">実食レビュー<br>リール</span></a>
+      <a class="samp" href="https://www.instagram.com/reel/DZpDG5Izh4V/" target="_blank" rel="noopener"><span class="samp-emoji">🎬</span><span class="samp-label">ショート動画<br>編集</span></a>
+      <a class="samp" href="https://www.instagram.com/reel/DMSIccITkDy/" target="_blank" rel="noopener"><span class="samp-emoji">💪</span><span class="samp-label">フィットネス<br>リール</span></a>
+      <a class="samp" href="https://www.instagram.com/reel/DZZ88kJzILR/" target="_blank" rel="noopener"><span class="samp-emoji">🥗</span><span class="samp-label">高タンパク<br>食レビュー</span></a>
+      <a class="samp" href="https://www.instagram.com/reel/DXYxedKE6xA/" target="_blank" rel="noopener"><span class="samp-emoji">📸</span><span class="samp-label">投稿<br>コンテンツ</span></a>
+      <a class="samp" href="https://www.instagram.com/yuri.18yurifitness/" target="_blank" rel="noopener"><span class="samp-emoji">＋</span><span class="samp-label">もっと見る<br>＠IG</span></a>
     </div>
-    <div class="sample-card">
-      <div class="sample-emoji">📊</div>
-      <div class="sample-label">トレカ相場<br>リサーチ資料</div>
-    </div>
-    <div class="sample-card">
-      <div class="sample-emoji">📸</div>
-      <div class="sample-label">SNS投稿<br>デザイン例</div>
-    </div>
-    <div class="sample-card">
-      <div class="sample-emoji">🥗</div>
-      <div class="sample-label">高タンパク食品<br>レビュー</div>
-    </div>
-    <div class="sample-card">
-      <div class="sample-emoji">🃏</div>
-      <div class="sample-label">仕入れリスト<br>作成サンプル</div>
-    </div>
-  </div>
+    <p style="text-align:center;font-size:12px;color:var(--text-3);margin-top:14px;">タップで実際のInstagram投稿が見られます ♡</p>
+  </section>
 
-  <!-- PROCESS -->
-  <div class="section-title">FLOW — 依頼の流れ</div>
-  <div class="process">
-    <div class="process-step">
-      <div class="process-num">1</div>
-      <div class="process-text">お問い合わせ<br>依頼内容を<br>ヒアリング</div>
+  <!-- FLOW -->
+  <section class="section">
+    <div class="sec-label">
+      <span class="en">Flow</span>
+      <span class="jp">ご依頼の流れ</span>
     </div>
-    <div class="process-step">
-      <div class="process-num">2</div>
-      <div class="process-text">内容確認<br>納期・方向性<br>を相談</div>
+    <div class="flow">
+      <div class="frow"><span class="fnum">1</span><span class="ftext"><b>お問い合わせ</b>／依頼内容をヒアリング</span></div>
+      <div class="frow"><span class="fnum">2</span><span class="ftext"><b>内容確認</b>／納期・方向性を相談</span></div>
+      <div class="frow"><span class="fnum">3</span><span class="ftext"><b>制作・調査</b>／撮影・編集・リサーチ</span></div>
+      <div class="frow"><span class="fnum">4</span><span class="ftext"><b>初稿提出</b>／修正対応（1〜2回）</span></div>
+      <div class="frow"><span class="fnum">5</span><span class="ftext"><b>納品完了</b>／ご確認後にお支払い</span></div>
     </div>
-    <div class="process-step">
-      <div class="process-num">3</div>
-      <div class="process-text">制作・調査<br>実食・撮影・<br>リサーチ実施</div>
+  </section>
+
+  <!-- FEATURE: 診断コンテンツ -->
+  <section class="section">
+    <div class="sec-label">
+      <span class="en">Special</span>
+      <span class="jp">オリジナル診断コンテンツ</span>
     </div>
-    <div class="process-step">
-      <div class="process-num">4</div>
-      <div class="process-text">初稿提出<br>修正対応<br>（1〜2回）</div>
-    </div>
-    <div class="process-step">
-      <div class="process-num">5</div>
-      <div class="process-text">納品完了<br>ご確認後に<br>お支払い</div>
-    </div>
-  </div>
+    <a class="feature" href="shindan.html" target="_blank" rel="noopener">
+      <span class="feature-badge">interactive ♡</span>
+      <span class="feature-emoji">🔮</span>
+      <div class="feature-title">6診断統合・性格診断メーカー</div>
+      <div class="feature-desc">MBTI・エニアグラム・手相・四柱推命・動物占い・強み診断を1つに統合。こんな"遊べる診断コンテンツ"の企画・制作もできます。</div>
+      <span class="feature-btn">診断してみる →</span>
+    </a>
+  </section>
 
   <!-- CTA -->
-  <div class="cta-block" id="contact">
-    <div class="cta-title">お仕事のご依頼・お問い合わせ</div>
-    <div class="cta-sub">
-      まずはお気軽にメッセージください。<br>
-      内容・予算・納期に合わせてご提案します。
-    </div>
+  <section class="cta" id="contact">
+    <span class="cta-en">Contact</span>
+    <div class="cta-title">お仕事のご依頼はこちら ♡</div>
+    <div class="cta-sub">内容・予算・納期に合わせてご提案します。<br>まずはお気軽にメッセージください。</div>
     <div class="cta-btns">
-      <a href="https://crowdworks.jp" class="btn-primary" target="_blank" rel="noopener">クラウドワークスで依頼する</a>
-      <a href="https://www.instagram.com/yuri.18yuri/" class="btn-ghost" target="_blank" rel="noopener">Instagramを見る</a>
+      <a class="cta-btn" href="https://crowdworks.jp" target="_blank" rel="noopener">クラウドワークスで依頼する</a>
+      <a class="cta-btn line" href="https://www.instagram.com/yuri.18yurifitness/" target="_blank" rel="noopener">Instagram を見る</a>
+      <a class="cta-btn line" href="https://www.tiktok.com/@yuri.18yurikintore" target="_blank" rel="noopener">TikTok を見る</a>
     </div>
-  </div>
+  </section>
 
-</section>
+  <footer>© 2026 yuri <span class="heart">♡</span> yuri.18yurifitness</footer>
 
-<footer>
-  <p>© 2026 ちゃんまん — フリーランスポートフォリオ</p>
-</footer>
+</div>
 
+<script>
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  // スクロール出現の対象
+  var targets = [].slice.call(document.querySelectorAll('.sec-label, .card, .str, .samp, .frow, .cta'));
+  targets.forEach(function (el) { el.classList.add('reveal'); });
+
+  // グループ内で順番にずらして出現
+  [['.cards .card', 0.08], ['.strengths .str', 0.07], ['.samples .samp', 0.06], ['.flow .frow', 0.06]]
+    .forEach(function (pair) {
+      document.querySelectorAll(pair[0]).forEach(function (el, i) {
+        el.style.transitionDelay = (i * pair[1]) + 's';
+      });
+    });
+
+  // スクロール判定（高速スクロールでも非表示残りゼロ）
+  var ticking = false;
+  function reveal() {
+    ticking = false;
+    var h = window.innerHeight;
+    for (var i = targets.length - 1; i >= 0; i--) {
+      if (targets[i].getBoundingClientRect().top < h * 0.9) {
+        targets[i].classList.add('is-visible');
+        targets.splice(i, 1);
+      }
+    }
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(reveal); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  reveal();
+})();
+</script>
 </body>
 </html>
