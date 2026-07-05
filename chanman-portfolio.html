@@ -410,6 +410,28 @@ footer .heart { color: var(--rose); }
 }
 .feature:hover .feature-btn { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(109,127,87,0.3); }
 
+/* ---- STATS ---- */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.stat {
+  background: var(--cream);
+  border-radius: 18px;
+  padding: 22px 10px 18px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(87,74,60,0.05);
+}
+.stat:nth-child(3n+2) { background: var(--cream-2); }
+.stat-num {
+  font-family: var(--mincho);
+  font-size: clamp(1.5rem, 6.5vw, 1.85rem);
+  font-weight: 700;
+  color: var(--sage-deep);
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+.stat-num .unit { font-size: 12px; font-weight: 500; color: var(--text-2); margin-left: 3px; }
+.stat-label { font-size: 11px; color: var(--text-2); margin-top: 7px; line-height: 1.5; }
+.stats-note { text-align: center; font-size: 11.5px; color: var(--text-3); margin-top: 14px; }
+
 /* ============ MOTION ============ */
 html { scroll-behavior: smooth; }
 .card, .samp, .pill, .cta-btn, .str, .frow {
@@ -562,9 +584,26 @@ html { scroll-behavior: smooth; }
     <div class="strengths">
       <div class="str"><div class="str-dot">1</div><div><div class="str-label">実際に使う・食べてレポート</div><div class="str-text">リサーチだけでなく自分で試してから。リアルな感想をコンテンツに反映します。</div></div></div>
       <div class="str"><div class="str-dot">2</div><div><div class="str-label">カード相場に精通</div><div class="str-text">店舗運営経験と日常的な相場チェックで、最新価格をスピーディに調査します。</div></div></div>
-      <div class="str"><div class="str-dot">3</div><div><div class="str-label">SNS実績あり</div><div class="str-text">Instagram 1,200+フォロワー・TikTok 550+フォロワーを実際に運用中。TikTokは1投稿9万再生を達成した実績もあります。</div></div></div>
+      <div class="str"><div class="str-dot">3</div><div><div class="str-label">SNS実績あり</div><div class="str-text">Instagram 1,250+フォロワー・TikTok 550+フォロワーを実際に運用中。TikTokは1投稿9.2万再生を達成した実績もあります。</div></div></div>
       <div class="str"><div class="str-dot">4</div><div><div class="str-label">丁寧なやりとり</div><div class="str-text">質問・修正には迅速に対応。納品まで細やかにコミュニケーションします。</div></div></div>
     </div>
+  </section>
+
+  <!-- NUMBERS -->
+  <section class="section">
+    <div class="sec-label">
+      <span class="en">Numbers</span>
+      <span class="jp">数字で見る運用実績</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">2,707<span class="unit">件</span></div><div class="stat-label">月間リーチ<br>アカウント数</div></div>
+      <div class="stat"><div class="stat-num">7,209<span class="unit">回</span></div><div class="stat-label">月間ビュー<br>（閲覧数）</div></div>
+      <div class="stat"><div class="stat-num">58<span class="unit">%</span></div><div class="stat-label">フォロワー外への<br>新規リーチ率</div></div>
+      <div class="stat"><div class="stat-num">1,256</div><div class="stat-label">Instagram<br>フォロワー</div></div>
+      <div class="stat"><div class="stat-num">540<span class="unit">件</span></div><div class="stat-label">月間<br>インタラクション</div></div>
+      <div class="stat"><div class="stat-num">9.2<span class="unit">万</span></div><div class="stat-label">TikTok<br>最高再生数</div></div>
+    </div>
+    <p class="stats-note">Instagramインサイト直近30日（2026年7月時点）／@yuri.18yurifitness ♡</p>
   </section>
 
   <!-- SAMPLES -->
@@ -635,11 +674,11 @@ html { scroll-behavior: smooth; }
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   // スクロール出現の対象
-  var targets = [].slice.call(document.querySelectorAll('.sec-label, .card, .str, .samp, .frow, .cta'));
+  var targets = [].slice.call(document.querySelectorAll('.sec-label, .card, .str, .stat, .samp, .frow, .cta'));
   targets.forEach(function (el) { el.classList.add('reveal'); });
 
   // グループ内で順番にずらして出現
-  [['.cards .card', 0.08], ['.strengths .str', 0.07], ['.samples .samp', 0.06], ['.flow .frow', 0.06]]
+  [['.cards .card', 0.08], ['.strengths .str', 0.07], ['.stats .stat', 0.06], ['.samples .samp', 0.06], ['.flow .frow', 0.06]]
     .forEach(function (pair) {
       document.querySelectorAll(pair[0]).forEach(function (el, i) {
         el.style.transitionDelay = (i * pair[1]) + 's';
